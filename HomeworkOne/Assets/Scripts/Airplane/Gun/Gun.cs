@@ -26,8 +26,6 @@ public class Gun : MonoBehaviour
     {
         if (_playerInputHandler.Fire) StartShooting();
         else StopShooting();
-
-        Debug.DrawRay(transform.position, transform.forward * 10.0f, Color.red);
     }
 
     public void StartShooting()
