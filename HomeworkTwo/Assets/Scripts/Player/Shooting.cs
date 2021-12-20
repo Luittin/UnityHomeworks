@@ -40,6 +40,10 @@ public class Shooting : MonoBehaviour
         {
             StartHardShooting();
         }
+        else
+        {
+            StopHardSooting();
+        }
     }
 
     private void StartHardShooting()

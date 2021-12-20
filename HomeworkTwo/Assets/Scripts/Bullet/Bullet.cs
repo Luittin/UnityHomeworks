@@ -5,8 +5,8 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour, IPoolable
 {
-    [SerializeField, Range(0.0f, 10.0f)]
-    private float _speed = 2.0f;
+    [SerializeField, Range(0.0f, 100.0f)]
+    private float _speed = 50.0f;
     [SerializeField, Range(0.0f, 20.0f)]
     private float _lifeTime = 5.0f;
 
@@ -24,6 +24,7 @@ public class Bullet : MonoBehaviour, IPoolable
 
     private void FixedUpdate()
     {
+        
         Vector3 moveForce = transform.forward * _speed * Time.fixedDeltaTime;
         _rigidbody.AddForce(moveForce, ForceMode.Force);
     }
@@ -36,6 +37,7 @@ public class Bullet : MonoBehaviour, IPoolable
 
     private void SleepObject()
     {
+        _rigidbody.velocity = Vector3.zero;
         gameObject.SetActive(false);
         onEndLifetime.Invoke();
     }

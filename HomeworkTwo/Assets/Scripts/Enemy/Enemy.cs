@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour, IPoolable
 {
@@ -21,9 +22,10 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         if(collision.gameObject.name == "Player")
         {
-
+            StopAllCoroutines();
+            SceneManager.LoadScene("Game");
         }
-        if(collision.gameObject.name == "Bullet")
+        if(collision.gameObject.name.Contains("Bullet"))
         {
             SleepEnemy();
         }

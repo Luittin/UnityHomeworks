@@ -7,7 +7,7 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     private GameObject _enemyPrefab;
 
-    private void Start()
+    private void Awake()
     {
         _enemyPool = new ObjectPool<Enemy>(CreateEnemy);
     }
