@@ -1,28 +1,21 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GenerationEnemy : MonoBehaviour
 {
     [SerializeField]
-    private GameObject _enemy;
-    [SerializeField]
     private float _spaunDelay;
     [SerializeField, Range(0.0f, 50.0f)]
     private float _radiusSpaun = 20.0f;
 
-    private EnemyManager _enemyManager;
+    [SerializeField]
+    private PoolManager _enemyManager;
 
-    private Coroutine generationEnemys;
+    private Coroutine _generationEnemys;
 
     private void Start()
     {
-        _enemyManager = FindObjectOfType<EnemyManager>();
-        if (_enemyManager == null)
-        {
-            Debug.Log("Bullet Manager not found!");
-        }
-        generationEnemys = StartCoroutine(GenerationEnemys());
+        _generationEnemys = StartCoroutine(GenerationEnemys());
     }
 
     private IEnumerator GenerationEnemys()
@@ -37,7 +30,7 @@ public class GenerationEnemy : MonoBehaviour
     private void CreateEnemy()
     {
         
-        Enemy enemy = _enemyManager.RequestEnemy();
+        Enemy enemy = (Enemy)_enemyManager.RequestObject();
         Debug.Log(enemy);
         Vector3 spawnposition = Random.insideUnitSphere * _radiusSpaun;
         spawnposition.y = transform.position.y;
@@ -47,6 +40,6 @@ public class GenerationEnemy : MonoBehaviour
 
     private void ReturnEnemyToPool(Enemy enemy)
     {
-        _enemyManager.ReturnEnemyToPool(enemy);
+        _enemyManager.ReturnObjectToPool(enemy);
     }
 }

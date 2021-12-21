@@ -13,8 +13,14 @@ public class Enemy : MonoBehaviour, IPoolable
     private Action onEndLifetime;
     public Action OnEndLifetime { set => onEndLifetime = value; }
 
+    private void Start()
+    {
+        target = FindObjectOfType<MovePlayer>().transform;   
+    }
+
     private void Update()
     {
+        transform.LookAt(target);
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
     }
 

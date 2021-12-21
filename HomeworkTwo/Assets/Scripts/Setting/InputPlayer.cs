@@ -24,10 +24,9 @@ public class InputPlayer : MonoBehaviour
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     private void Update()
     {
         _verticalPosition = Input.GetAxis("Vertical");

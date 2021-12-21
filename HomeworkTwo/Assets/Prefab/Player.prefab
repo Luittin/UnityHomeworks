@@ -1,5 +1,50 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3172123250839701805
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2984171252161615951}
+  - component: {fileID: 8492969843362320640}
+  m_Layer: 0
+  m_Name: HardGun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2984171252161615951
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172123250839701805}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7204954281333114028}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8492969843362320640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3172123250839701805}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4d3ec75662e3a94e813f8d9ca6461e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootingDelay: 5
+  _radiusShooting: 1
 --- !u!1 &7204954280708279592
 GameObject:
   m_ObjectHideFlags: 0
@@ -285,9 +330,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7204954281333114031}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.554, y: -0, z: 1.08}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 8772979844003387175}
+  - {fileID: 2984171252161615951}
   m_Father: {fileID: 7204954281783307811}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -303,9 +350,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7140787497e5ad43b8bbb8625964407, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _shootingDelay: 0.2
-  _radiusHardShooting: 0.5
-  _inputPlayer: {fileID: 6927372035677198614, guid: 73a78e2ab37a07a46ad1080944c53a6a, type: 3}
+  _inputPlayer: {fileID: 2040117832}
+  _guns:
+  - {fileID: 5004223138667527149}
+  - {fileID: 8492969843362320640}
 --- !u!1 &7204954281783307810
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +365,7 @@ GameObject:
   - component: {fileID: 7204954281783307811}
   - component: {fileID: 7204954281783307809}
   - component: {fileID: 7204954281783307808}
+  - component: {fileID: 2040117832}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -370,4 +419,69 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 189f240d37830ec4987a31493d366679, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputPlayer: {fileID: 2040117832}
   _speed: 2
+  _mouseSense: 10
+--- !u!114 &2040117832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7204954281783307810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0238a1e5b26ffb54384bc754305e2d0d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _verticalPosition: 0
+  _horizontalPosition: 0
+  _mousePositionX: 0
+  _mousePositionY: 0
+  _lightShooting: 0
+  _hardShooting: 0
+--- !u!1 &8314442490268023310
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8772979844003387175}
+  - component: {fileID: 5004223138667527149}
+  m_Layer: 0
+  m_Name: LightGun
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8772979844003387175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8314442490268023310}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 7204954281333114028}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5004223138667527149
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8314442490268023310}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a77d99eebc7b4354a834f2ed545ae1a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shootingDelay: 0.5
+  _bulletManager: {fileID: 0}

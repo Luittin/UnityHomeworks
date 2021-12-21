@@ -2,17 +2,19 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class MovePlayer : MonoBehaviour
 {
+    [SerializeField]
+    private InputPlayer _inputPlayer;
+
     [SerializeField, Range(0.0f, 10.0f)]
     private float _speed = 2.0f;
+    [SerializeField, Range(0.0f, 200.0f)]
+    private float _mouseSense = 100.0f;
 
-    private InputPlayer _inputPlayer;
     private Rigidbody _rigidbody;
 
     private void Awake()
     {
-        _inputPlayer = GameObject.FindObjectOfType<InputPlayer>();
         _rigidbody = GetComponent<Rigidbody>();
-
     }
 
     private void FixedUpdate()
@@ -51,8 +53,8 @@ public class MovePlayer : MonoBehaviour
 
     private void RotationPlayer()
     {
-        float xMousePosition = transform.rotation.eulerAngles.x - _inputPlayer.MousePositionY;
-        float yMousePosition = transform.rotation.eulerAngles.y + _inputPlayer.MousePositionX;
+        float xMousePosition = transform.rotation.eulerAngles.x - _inputPlayer.MousePositionY * _mouseSense * Time.fixedDeltaTime;
+        float yMousePosition = transform.rotation.eulerAngles.y + _inputPlayer.MousePositionX * _mouseSense * Time.fixedDeltaTime;
         Quaternion rotate = Quaternion.Euler(xMousePosition, yMousePosition, 0.0f);
         _rigidbody.MoveRotation(rotate);
         
