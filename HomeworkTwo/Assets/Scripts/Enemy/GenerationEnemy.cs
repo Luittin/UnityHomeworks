@@ -6,7 +6,7 @@ public class GenerationEnemy : MonoBehaviour
     [SerializeField]
     private float _spaunDelay;
     [SerializeField, Range(0.0f, 50.0f)]
-    private float _radiusSpaun = 20.0f;
+    private float _radiusSpawn = 20.0f;
 
     [SerializeField]
     private PoolManager _enemyManager;
@@ -32,7 +32,7 @@ public class GenerationEnemy : MonoBehaviour
         
         Enemy enemy = (Enemy)_enemyManager.RequestObject();
         Debug.Log(enemy);
-        Vector3 spawnposition = Random.insideUnitSphere * _radiusSpaun;
+        Vector3 spawnposition = Random.insideUnitSphere * _radiusSpawn;
         spawnposition.y = transform.position.y;
         enemy.transform.position = spawnposition;
         enemy.OnEndLifetime = () => { ReturnEnemyToPool(enemy); };
