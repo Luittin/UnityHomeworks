@@ -1,11 +1,13 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour, IPoolable
 {
     [SerializeField, Range(0.0f, 10.0f)]
     private float _speed = 2.0f;
+
+    [SerializeField]
+    private int _damageValue = 2;
 
     [SerializeField]
     private Transform target;
@@ -28,11 +30,11 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         if(collision.gameObject.name == "Player")
         {
-            StopAllCoroutines();
-            SceneManager.LoadScene("Game");
+            collision.gameObject.GetComponent<HealthPlayer>().Health -= _damageValue;
         }
         if(collision.gameObject.name.Contains("Bullet"))
         {
+            GameManager.Instance.EnemyKilled();
             SleepEnemy();
         }
     }
