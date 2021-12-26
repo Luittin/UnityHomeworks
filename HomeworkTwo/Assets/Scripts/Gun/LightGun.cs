@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class LightGun : IGun
+public class LightGun : Gun
 {
     [SerializeField]
     private PoolManager _bulletManager;

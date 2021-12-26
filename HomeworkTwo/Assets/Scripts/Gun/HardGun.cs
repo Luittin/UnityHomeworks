@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HardGun : IGun
+public class HardGun : Gun
 {
     [SerializeField, Range(0.0f, 10.0f)]
     private float _radiusShooting = 0.5f;

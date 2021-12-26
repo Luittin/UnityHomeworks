@@ -11,16 +11,16 @@ public class InputPlayer : MonoBehaviour
     [SerializeField]
     private float _mousePositionY;
     [SerializeField]
-    private bool _lightShooting = false;
+    private int _selectGun = 1;
     [SerializeField]
-    private bool _hardShooting = false;
+    private bool _lightShooting = false;
 
     public float VerticalPosition { get => _verticalPosition; }
     public float HorizontalPosition { get => _horizontalPosition; }
     public float MousePositionX { get => _mousePositionX; }
     public bool LightShooting { get => _lightShooting; }
-    public bool HardShooting { get => _hardShooting; }
     public float MousePositionY { get => _mousePositionY; }
+    public int SelectGun { get => _selectGun; set => _selectGun = value; }
 
     private void Awake()
     {
@@ -37,13 +37,14 @@ public class InputPlayer : MonoBehaviour
 
         _lightShooting = Input.GetButton("Fire1");
 
-        if (Input.GetButtonDown("Fire2"))
+        if (Input.GetButtonDown("1"))
         {
-            _hardShooting = true;
+            _selectGun = 1;
         }
-        if (Input.GetButtonUp("Fire2"))
+
+        if (Input.GetButtonDown("2"))
         {
-            _hardShooting = false;
+            _selectGun = 2;
         }
     }
 }

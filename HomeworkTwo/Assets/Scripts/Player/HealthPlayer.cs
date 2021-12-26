@@ -7,7 +7,7 @@ public class HealthPlayer : MonoBehaviour
     private int _health = 10;
 
     [SerializeField]
-    private float _shieldTime = 1.0f;
+    private float _InvurabilityTime = 1.0f;
 
     public int Health { get => _health; set => ChangeHealth(value); }
 
@@ -32,7 +32,7 @@ public class HealthPlayer : MonoBehaviour
 
     private IEnumerator TimeShield()
     {
-        yield return new WaitForSeconds(_shieldTime);
+        yield return new WaitForSeconds(_InvurabilityTime);
         isShield = false;
     } 
 }

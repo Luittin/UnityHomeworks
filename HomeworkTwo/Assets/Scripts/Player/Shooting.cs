@@ -7,25 +7,25 @@ public class Shooting : MonoBehaviour
     private InputPlayer _inputPlayer;
 
     [SerializeField]
-    private List<IGun> _guns;
+    private List<Gun> _guns;
+
+    private int _selectGun = 1;
 
     private void Update()
     {
+        if(_selectGun != _inputPlayer.SelectGun)
+        {
+            _selectGun = _inputPlayer.SelectGun;
+            GameManager.Instance.RefrashGunMenu(_guns[_selectGun].Icon, _guns[_selectGun].BooletMagazine, _guns[_selectGun].AllBullet);
+        }
+
         if (_inputPlayer.LightShooting)
         {
-            _guns[0].StartShooting();
+            _guns[_selectGun].StartShooting();
         }
         else
         {
-            _guns[0].StopSooting();
-        }
-        if (_inputPlayer.HardShooting)
-        {
-            _guns[1].StartShooting();
-        }
-        else
-        {
-            _guns[1].StopSooting();
+            _guns[_selectGun].StopSooting();
         }
     }
 }

@@ -45,4 +45,14 @@ public class GameManager : MonoBehaviour
             _uiManager.OpenDethMenu();
         }
     }
+
+    public void RefrashGunMenu(Sprite iconGun, int currentBullet, int maxBullet)
+    {
+        _uiManager.RefrashGunMenu(iconGun, currentBullet, maxBullet);
+    }
+
+    public void RefrashGunMenu(int currentBullet, int maxBullet)
+    {
+        _uiManager.RefrashGunMenu(currentBullet, maxBullet);
+    }
 }
