@@ -15,7 +15,7 @@ public class HardGun : Gun
         {
             if (hit.collider.tag == "Enemy")
             {
-                hit.collider.GetComponent<Enemy>().SleepEnemy();
+                hit.collider.GetComponent<Health>().Healths -= DamageValue;
             }
         }
     }

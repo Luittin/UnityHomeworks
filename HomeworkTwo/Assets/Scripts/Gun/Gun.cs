@@ -8,6 +8,9 @@ public class Gun : MonoBehaviour
     private float _shootingDelay;
 
     [SerializeField]
+    private int _damageValue = 1;
+
+    [SerializeField]
     private Sprite _icon;
     [SerializeField]
     private int _booletMagazine = 10;
@@ -22,6 +25,7 @@ public class Gun : MonoBehaviour
     public int BooletMagazine { get => _booletMagazine; set => _booletMagazine = value; }
     public int AllBullet { get => _allBullet; set => _allBullet = value; }
     public int MaxBulletMagazine { get => _maxBulletMagazine; set => _maxBulletMagazine = value; }
+    public int DamageValue { get => _damageValue; set => _damageValue = value; }
 
     public void StartShooting()
     {
@@ -37,17 +41,9 @@ public class Gun : MonoBehaviour
         {            
             if(_booletMagazine == 0)
             {
-                if(_allBullet >= _maxBulletMagazine)
-                {
-                    _booletMagazine = _maxBulletMagazine;
-                    _allBullet -= _maxBulletMagazine;
-                }
-                else if(_allBullet > 0)
-                {
-                    _booletMagazine = _allBullet;
-                    _allBullet = 0;
-                }
-                else if(_allBullet == 0)
+                RechargeGun();
+
+                if(_allBullet == 0)
                 {
                     yield return new WaitForSeconds(_shootingDelay);
                 }
@@ -66,6 +62,30 @@ public class Gun : MonoBehaviour
     protected virtual void Shoot()
     {
         throw new NotImplementedException();
+    }
+
+    public void RechargeGun()
+    {
+        if(_booletMagazine == _maxBulletMagazine)
+        {
+            return;
+        }
+        if(_booletMagazine != 0)
+        {
+            _allBullet += _booletMagazine;
+            _booletMagazine = 0;
+        }
+        if (_allBullet >= _maxBulletMagazine)
+        {
+            _booletMagazine = _maxBulletMagazine;
+            _allBullet -= _maxBulletMagazine;
+        }
+        else if (_allBullet > 0)
+        {
+            _booletMagazine = _allBullet;
+            _allBullet = 0;
+        }
+        GameManager.Instance.RefrashGunMenu(_booletMagazine, _allBullet);
     }
 
     public void StopSooting()

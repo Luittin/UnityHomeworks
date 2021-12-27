@@ -1,15 +1,10 @@
 using System.Collections;
 using UnityEngine;
 
-public class HealthPlayer : MonoBehaviour
+public class HealthPlayer : Health
 {
     [SerializeField]
-    private int _health = 10;
-
-    [SerializeField]
     private float _InvurabilityTime = 1.0f;
-
-    public int Health { get => _health; set => ChangeHealth(value); }
 
     private bool isShield = false;
 
@@ -17,15 +12,14 @@ public class HealthPlayer : MonoBehaviour
 
     private void Start()
     {
-        GameManager.Instance.ChangeHealth(_health);
+        GameManager.Instance.ChangeHealth(Healths);
     }
 
-    private void ChangeHealth(int health)
+    protected override void CheckHealth()
     {
         if (!isShield)
         {
-            _health = health;
-            GameManager.Instance.ChangeHealth(_health);
+            GameManager.Instance.ChangeHealth(Healths);
             _timeToShield = StartCoroutine(TimeShield());
         }
     }

@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -686,8 +686,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _scoreText: {fileID: 679671562}
   _healthText: {fileID: 2106910043}
+  _bulletText: {fileID: 1498421097}
+  _iconGun: {fileID: 978927541}
   _gameMenu: {fileID: 1443232680}
-  _dethMenu: {fileID: 1535079594}
+  _deathMenu: {fileID: 1535079594}
 --- !u!1 &865252364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1935,7 +1937,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 10
-  _shieldTime: 1
+  _InvurabilityTime: 1
 --- !u!1 &1819097483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2426,6 +2428,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 5004223138667527149, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
+      propertyPath: _icon
+      value: 
+      objectReference: {fileID: 21300000, guid: ea01ee6f42b0748458b6d5b3d2b4bea7, type: 3}
+    - target: {fileID: 5004223138667527149, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
       propertyPath: _bulletManager
       value: 
       objectReference: {fileID: 2076781476}
@@ -2480,6 +2486,18 @@ PrefabInstance:
     - target: {fileID: 7204954281783307811, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8492969843362320640, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
+      propertyPath: _icon
+      value: 
+      objectReference: {fileID: 21300000, guid: 82a0f27489974684bb17c6991ad3b8a3, type: 3}
+    - target: {fileID: 8492969843362320640, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
+      propertyPath: _booletMagazine
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8492969843362320640, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
+      propertyPath: _maxBulletMagazine
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}

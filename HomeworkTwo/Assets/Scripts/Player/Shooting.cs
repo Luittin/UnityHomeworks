@@ -9,7 +9,12 @@ public class Shooting : MonoBehaviour
     [SerializeField]
     private List<Gun> _guns;
 
-    private int _selectGun = 1;
+    private int _selectGun = 0;
+
+    private void Start()
+    {
+        GameManager.Instance.RefrashGunMenu(_guns[_selectGun].Icon, _guns[_selectGun].BooletMagazine, _guns[_selectGun].AllBullet);
+    }
 
     private void Update()
     {
@@ -27,5 +32,10 @@ public class Shooting : MonoBehaviour
         {
             _guns[_selectGun].StopSooting();
         }
+
+        if (_inputPlayer.Recharge)
+        {
+            _guns[_selectGun].RechargeGun();
+        }        
     }
 }

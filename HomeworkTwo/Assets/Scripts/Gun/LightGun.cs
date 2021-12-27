@@ -8,6 +8,7 @@ public class LightGun : Gun
     protected override void Shoot()
     {
         Bullet bullet = (Bullet)_bulletManager.RequestObject();
+        bullet.DamageValue = DamageValue;
         bullet.transform.position = transform.position;
         bullet.transform.LookAt(transform.position + transform.forward);
         bullet.OnEndLifetime = () => { ReturnBulletToPool(bullet); };

@@ -30,12 +30,7 @@ public class Enemy : MonoBehaviour, IPoolable
     {
         if(collision.gameObject.name == "Player")
         {
-            collision.gameObject.GetComponent<HealthPlayer>().Health -= _damageValue;
-        }
-        if(collision.gameObject.name.Contains("Bullet"))
-        {
-            GameManager.Instance.EnemyKilled();
-            SleepEnemy();
+            collision.gameObject.GetComponent<Health>().Healths -= _damageValue;
         }
     }
 

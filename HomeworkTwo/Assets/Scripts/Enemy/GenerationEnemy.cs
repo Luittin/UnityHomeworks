@@ -31,7 +31,6 @@ public class GenerationEnemy : MonoBehaviour
     {
         
         Enemy enemy = (Enemy)_enemyManager.RequestObject();
-        Debug.Log(enemy);
         Vector3 spawnposition = Random.insideUnitSphere * _radiusSpawn;
         spawnposition.y = transform.position.y;
         enemy.transform.position = spawnposition;

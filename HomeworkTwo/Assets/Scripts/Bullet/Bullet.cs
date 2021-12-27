@@ -9,13 +9,17 @@ public class Bullet : MonoBehaviour, IPoolable
     private float _speed = 50.0f;
     [SerializeField, Range(0.0f, 20.0f)]
     private float _lifeTime = 5.0f;
+    
+    private int _damageValue = 1;
 
     private Rigidbody _rigidbody;
 
     private Action onEndLifetime;
     private Coroutine _lifetimeCoroutine;
-
+    
+    public int DamageValue { set => _damageValue = value; }
     public Action OnEndLifetime { set => onEndLifetime = value; }
+    
 
     private void Awake()
     {
@@ -59,7 +63,11 @@ public class Bullet : MonoBehaviour, IPoolable
     }
 
     private void OnCollisionEnter(Collision collision)
-    {
+    {   
+        if(collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.GetComponent<Health>().Healths -= _damageValue;
+        }
         SleepObject();
     }
 }

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -31,9 +29,9 @@ public class GameManager : MonoBehaviour
         Score = 0;
     }
 
-    public void EnemyKilled()
+    public void EnemyKilled(int addScore)
     {
-        Score++;
+        Score += addScore;
     }
 
     public void ChangeHealth(int health)
