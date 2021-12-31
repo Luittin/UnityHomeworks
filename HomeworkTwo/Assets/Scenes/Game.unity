@@ -1936,8 +1936,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d66a941231a73cf47bec4ca255843656, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _health: 10
+  _healths: 10
   _InvurabilityTime: 1
+--- !u!143 &1708542236
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1708542234}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 2
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &1819097483
 GameObject:
   m_ObjectHideFlags: 0
@@ -2436,6 +2454,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2076781476}
     - target: {fileID: 7204954281783307808, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
+      propertyPath: _speed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7204954281783307808, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
       propertyPath: _mouseSense
       value: 100
       objectReference: {fileID: 0}
@@ -2499,5 +2521,6 @@ PrefabInstance:
       propertyPath: _maxBulletMagazine
       value: 5
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7204954281783307809, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 7f78436e29b39274a8dc8d426751d780, type: 3}

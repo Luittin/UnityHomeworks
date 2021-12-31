@@ -1,5 +1,5 @@
 using UnityEngine;
-[RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(CharacterController))]
 public class MovePlayer : MonoBehaviour
 {
     [SerializeField]
@@ -10,11 +10,11 @@ public class MovePlayer : MonoBehaviour
     [SerializeField, Range(0.0f, 200.0f)]
     private float _mouseSense = 100.0f;
 
-    private Rigidbody _rigidbody;
+    private CharacterController _characterController;
 
     private void Awake()
     {
-        _rigidbody = GetComponent<Rigidbody>();
+        _characterController = GetComponent<CharacterController>();
     }
 
     private void FixedUpdate()
@@ -47,8 +47,8 @@ public class MovePlayer : MonoBehaviour
         {
             current -= transform.forward;
         }
-
-        _rigidbody.MovePosition(transform.position + current * Time.fixedDeltaTime * _speed);
+        current.y = 0.0f;
+        _characterController.Move(current * Time.fixedDeltaTime * _speed);
     }
 
     private void RotationPlayer()
@@ -56,7 +56,6 @@ public class MovePlayer : MonoBehaviour
         float xMousePosition = transform.rotation.eulerAngles.x - _inputPlayer.MousePositionY * _mouseSense * Time.fixedDeltaTime;
         float yMousePosition = transform.rotation.eulerAngles.y + _inputPlayer.MousePositionX * _mouseSense * Time.fixedDeltaTime;
         Quaternion rotate = Quaternion.Euler(xMousePosition, yMousePosition, 0.0f);
-        _rigidbody.MoveRotation(rotate);
-        
+        transform.rotation = rotate;        
     }
 }
