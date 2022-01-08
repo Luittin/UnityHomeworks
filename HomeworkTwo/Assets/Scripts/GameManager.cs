@@ -40,17 +40,7 @@ public class GameManager : MonoBehaviour
 
         if(health <= 0)
         {
-            _uiManager.OpenDethMenu();
+            _uiManager.OpenDeathMenu();
         }
-    }
-
-    public void RefrashGunMenu(Sprite iconGun, int currentBullet, int maxBullet)
-    {
-        _uiManager.RefrashGunMenu(iconGun, currentBullet, maxBullet);
-    }
-
-    public void RefrashGunMenu(int currentBullet, int maxBullet)
-    {
-        _uiManager.RefrashGunMenu(currentBullet, maxBullet);
     }
 }

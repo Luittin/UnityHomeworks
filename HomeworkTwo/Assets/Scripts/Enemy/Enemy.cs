@@ -17,7 +17,7 @@ public class Enemy : MonoBehaviour, IPoolable
 
     private void Start()
     {
-        target = FindObjectOfType<MovePlayer>().transform;   
+        target = FindObjectOfType<PlayerMove>().transform;
     }
 
     private void Update()
@@ -28,9 +28,9 @@ public class Enemy : MonoBehaviour, IPoolable
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player")
         {
-            collision.gameObject.GetComponent<Health>().Healths -= _damageValue;
+            collision.gameObject.GetComponent<HealthPlayer>().Healths -= _damageValue;
         }
     }
 

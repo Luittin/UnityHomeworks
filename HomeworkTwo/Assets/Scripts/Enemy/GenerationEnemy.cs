@@ -4,12 +4,12 @@ using UnityEngine;
 public class GenerationEnemy : MonoBehaviour
 {
     [SerializeField]
-    private float _spaunDelay;
+    private float _spawnDelay;
     [SerializeField, Range(0.0f, 50.0f)]
     private float _radiusSpawn = 20.0f;
 
     [SerializeField]
-    private PoolManager _enemyManager;
+    private EnemyManager _enemyManager;
 
     private Coroutine _generationEnemys;
 
@@ -23,14 +23,14 @@ public class GenerationEnemy : MonoBehaviour
         while (true)
         {
             CreateEnemy();
-            yield return new WaitForSecondsRealtime(_spaunDelay);
+            yield return new WaitForSecondsRealtime(_spawnDelay);
         }
     }
 
     private void CreateEnemy()
     {
-        
-        Enemy enemy = (Enemy)_enemyManager.RequestObject();
+
+        Enemy enemy = _enemyManager.RequestObject();
         Vector3 spawnposition = Random.insideUnitSphere * _radiusSpawn;
         spawnposition.y = transform.position.y;
         enemy.transform.position = spawnposition;

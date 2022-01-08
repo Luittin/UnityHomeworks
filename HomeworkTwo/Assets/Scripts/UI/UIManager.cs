@@ -28,7 +28,7 @@ public class UIManager : MonoBehaviour
         _healthText.text = $"{newHealth}";
     }
 
-    public void OpenDethMenu()
+    public void OpenDeathMenu()
     {
         Time.timeScale = 0;
         _gameMenu.gameObject.SetActive(false);
@@ -36,13 +36,13 @@ public class UIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
     }
 
-    public void RefrashGunMenu(Sprite iconGun, int currentBullet, int maxBullet)
+    public void RefreshGunMenu(Sprite iconGun, int currentBullet, int maxBullet)
     {
-        RefrashGunMenu(currentBullet, maxBullet);
+        RefreshGunMenu(currentBullet, maxBullet);
         _iconGun.sprite = iconGun;
     }
 
-    public void RefrashGunMenu(int currentBullet, int maxBullet)
+    public void RefreshGunMenu(int currentBullet, int maxBullet)
     {
         _bulletText.text = $"{ currentBullet}/{maxBullet}";
     }
