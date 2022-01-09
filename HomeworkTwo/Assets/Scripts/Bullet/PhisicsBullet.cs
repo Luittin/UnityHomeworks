@@ -1,7 +1,7 @@
 using System.Collections;
 using UnityEngine;
 
-public class PhisicsBollet : Bollet
+public class PhisicsBullet : Bullet
 {
     [SerializeField]
     private float _moveSpeed = 2.0f;
@@ -23,7 +23,7 @@ public class PhisicsBollet : Bollet
         _rigidbody.AddForce(moveForce, ForceMode.Force);
     }
 
-    private IEnumerator BolletLefeTime()
+    private IEnumerator BulletLefeTime()
     {
         yield return new WaitForSecondsRealtime(_lifeTime);
         SleepObject();
@@ -49,7 +49,7 @@ public class PhisicsBollet : Bollet
     public override void RequestFromPool()
     {
         gameObject.SetActive(true);
-        _coroutineLifeTime = StartCoroutine(BolletLefeTime());
+        _coroutineLifeTime = StartCoroutine(BulletLefeTime());
     }
 
     private void OnCollisionEnter(Collision collision)

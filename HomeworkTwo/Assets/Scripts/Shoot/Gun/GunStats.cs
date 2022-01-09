@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public delegate void BolletHandler(int countBollet, int countAllBollet);
+public delegate void BulletHandler(int countBullet, int countAllBullet);
 public delegate void ReloadGunHandler();
 
 public class GunStats : MonoBehaviour
@@ -8,22 +8,22 @@ public class GunStats : MonoBehaviour
     [SerializeField]
     private int damage = 1;
     [SerializeField]
-    private int _bolletInMagazine;
+    private int _bulletInMagazine;
     [SerializeField]
-    private int _maxBolletInMagazine = 10;
+    private int _maxBulletInMagazine = 10;
     [SerializeField]
-    private int _allBollet = 100;
+    private int _allBullet = 100;
 
     private bool isReloadGun = false;
 
-    public int BolletInMagazine { get => _bolletInMagazine; set { _bolletInMagazine = value; OnMagazineHandler?.Invoke(_bolletInMagazine, _allBollet); } }
-    public int AllBollet { get => _allBollet; set { _allBollet = value; OnAllBolletHandler?.Invoke(_bolletInMagazine, _allBollet); } }
+    public int BulletInMagazine { get => _bulletInMagazine; set { _bulletInMagazine = value; OnMagazineHandler?.Invoke(_bulletInMagazine, _allBullet); } }
+    public int AllBullet { get => _allBullet; set { _allBullet = value; OnAllBulletHandler?.Invoke(_bulletInMagazine, _allBullet); } }
     public bool IsReloadGun { get => isReloadGun; set { isReloadGun = value; if(isReloadGun) OnReloadGunHandler?.Invoke(); } }
 
     public int Damage { get => damage; set => damage = value; }
 
-    public event BolletHandler OnMagazineHandler;
-    public event BolletHandler OnAllBolletHandler;
+    public event BulletHandler OnMagazineHandler;
+    public event BulletHandler OnAllBulletHandler;
     public event ReloadGunHandler OnReloadGunHandler;
     
     public void Setup(ShootingDelay shootingDelay)
@@ -31,30 +31,30 @@ public class GunStats : MonoBehaviour
         OnReloadGunHandler += shootingDelay.StartReload;
         UIManager uiManager = FindObjectOfType<UIManager>();
         OnMagazineHandler += uiManager.RefreshGunMenu;
-        OnAllBolletHandler += uiManager.RefreshGunMenu;
-        BolletInMagazine = _maxBolletInMagazine;
+        OnAllBulletHandler += uiManager.RefreshGunMenu;
+        BulletInMagazine = _maxBulletInMagazine;
     }
 
     public void RechargeGun()
     {
-        if (_bolletInMagazine == _maxBolletInMagazine)
+        if (_bulletInMagazine == _maxBulletInMagazine)
         {
             return;
         }
-        if (_bolletInMagazine != 0)
+        if (_bulletInMagazine != 0)
         {
-            _allBollet += _bolletInMagazine;            
-            _bolletInMagazine = 0;
+            _allBullet += _bulletInMagazine;            
+            _bulletInMagazine = 0;
         }
-        if (_allBollet >= _maxBolletInMagazine)
+        if (_allBullet >= _maxBulletInMagazine)
         {
-            BolletInMagazine = _maxBolletInMagazine;
-            AllBollet -= _maxBolletInMagazine;
+            BulletInMagazine = _maxBulletInMagazine;
+            AllBullet -= _maxBulletInMagazine;
         }
-        else if (_allBollet > 0)
+        else if (_allBullet > 0)
         {
-            BolletInMagazine = _allBollet;
-            AllBollet = 0;
+            BulletInMagazine = _allBullet;
+            AllBullet = 0;
         }
     }
 

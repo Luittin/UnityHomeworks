@@ -1,14 +1,14 @@
 using System;
 using UnityEngine;
 
-public class Bollet : MonoBehaviour, IPoolable
+public class Bullet : MonoBehaviour, IPoolable
 {
     [SerializeField]
     private int damage = 1;
 
-    protected Action<Bollet> onEndLifetime;
+    protected Action<Bullet> onEndLifetime;
 
-    public Action<Bollet> OnEndLifetime { get => onEndLifetime; set => onEndLifetime = value; }
+    public Action<Bullet> OnEndLifetime { get => onEndLifetime; set => onEndLifetime = value; }
     public int Damage { get => damage; set => damage = value; }
 
     public virtual void RequestFromPool()

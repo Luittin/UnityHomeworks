@@ -1,7 +1,6 @@
-using System;
 using UnityEngine;
 
-public class RaycastBollet : Bollet
+public class RaycastBullet : Bullet
 {
     [SerializeField, Range(0.0f, 10.0f)]
     private float _radiusShooting = 0.5f;

@@ -141,9 +141,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  _bolletInMagazine: 10
-  _maxBolletInMagazine: 10
-  _allBollet: 100
+  _bulletInMagazine: 0
+  _maxBulletInMagazine: 10
+  _allBullet: 100
 --- !u!114 &94544170
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -159,7 +159,7 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: ea01ee6f42b0748458b6d5b3d2b4bea7, type: 3}
   _shootingDelay: {fileID: 94544171}
   _gunStats: {fileID: 94544169}
-  _bollet: {fileID: 4526487526793021152, guid: 246c68262e6d5c54cb0eb91cec2505c5, type: 3}
+  _bullet: {fileID: 4526487526793021152, guid: 246c68262e6d5c54cb0eb91cec2505c5, type: 3}
 --- !u!114 &94544171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c50d2b8a4cdf748af78b617c708ab6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _spaunDelay: 5
+  _spawnDelay: 5
   _radiusSpawn: 20
   _enemyManager: {fileID: 351171675}
 --- !u!4 &351171674
@@ -343,7 +343,7 @@ MonoBehaviour:
   _icon: {fileID: 21300000, guid: 82a0f27489974684bb17c6991ad3b8a3, type: 3}
   _shootingDelay: {fileID: 520241128}
   _gunStats: {fileID: 520241129}
-  _bollet: {fileID: 3080222140934844781, guid: 8edcd4d2d3831a44f9416b5cd006acd7, type: 3}
+  _bullet: {fileID: 3080222140934844781, guid: 8edcd4d2d3831a44f9416b5cd006acd7, type: 3}
 --- !u!114 &520241128
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -373,9 +373,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damage: 1
-  _bolletInMagazine: 5
-  _maxBolletInMagazine: 5
-  _allBollet: 25
+  _bulletInMagazine: 0
+  _maxBulletInMagazine: 10
+  _allBullet: 100
 --- !u!1 &679671560
 GameObject:
   m_ObjectHideFlags: 0

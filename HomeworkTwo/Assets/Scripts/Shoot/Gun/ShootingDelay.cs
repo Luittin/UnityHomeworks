@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class ShootingDelay : MonoBehaviour
@@ -30,7 +29,7 @@ public class ShootingDelay : MonoBehaviour
         }
     }
 
-    public void StopShotting()
+    public void StopShootting()
     {
         if (_shoot != null)
         {
@@ -41,7 +40,7 @@ public class ShootingDelay : MonoBehaviour
 
     public void StartReload()
     {
-        StopShotting();
+        StopShootting();
         _reload = StartCoroutine(ReloadMagazine());
     }
 
@@ -50,7 +49,6 @@ public class ShootingDelay : MonoBehaviour
         StopCoroutine(_reload);
         _reload = null;
         _gunStats.RechargeGun();
-        Debug.Log("SR");
     }
 
     private IEnumerator Shoot()
@@ -58,28 +56,28 @@ public class ShootingDelay : MonoBehaviour
         while (true)
         {
 
-            if (_gunStats.BolletInMagazine == 0)
+            if (_gunStats.BulletInMagazine == 0)
             {
                 _gunStats.RechargeGun();
 
-                if (_gunStats.AllBollet == 0)
+                if (_gunStats.AllBullet == 0)
                 {
                     yield return new WaitForSeconds(_shootDelay);
                 }
             }
 
-            _gunStats.BolletInMagazine--;
+            _gunStats.BulletInMagazine--;
 
             CreateBollet(_gun.ObjectPool.GetObject());
             yield return new WaitForSeconds(_shootDelay);
         }
     }
 
-    private void CreateBollet(Bollet bollet)
+    private void CreateBollet(Bullet bullet)
     {
-        bollet.Damage = _gunStats.Damage;
-        bollet.transform.position = transform.position;
-        bollet.transform.LookAt(transform.position + transform.forward);
+        bullet.Damage = _gunStats.Damage;
+        bullet.transform.position = transform.position;
+        bullet.transform.LookAt(transform.position + transform.forward);
     }
 
 

@@ -9,30 +9,30 @@ public class Gun : MonoBehaviour
     [SerializeField]
     private GunStats _gunStats;
     [SerializeField]
-    private Bollet _bollet;
+    private Bullet _bullet;
 
-    private ObjectPool<Bollet> _objectPool;
+    private ObjectPool<Bullet> _objectPool;
 
-    public ObjectPool<Bollet> ObjectPool { get => _objectPool; }
+    public ObjectPool<Bullet> ObjectPool { get => _objectPool; }
     public ShootingDelay ShootingDelay { get => _shootingDelay; }
     public Sprite Icon { get => _icon; }
     public GunStats GunStats { get => _gunStats; }
 
     private void Awake()
     {
-        _objectPool = new ObjectPool<Bollet>(CreateObject);
+        _objectPool = new ObjectPool<Bullet>(CreateObject);
         _shootingDelay.Setup(this, _gunStats);
         _gunStats.Setup(_shootingDelay);
     }
 
-    private Bollet CreateObject()
+    private Bullet CreateObject()
     {
-        var createdBullet = Instantiate(_bollet).GetComponent<Bollet>();
+        var createdBullet = Instantiate(_bullet).GetComponent<Bullet>();
         createdBullet.OnEndLifetime += ReturnObjectToPool;
         return createdBullet;
     }
 
-    public void ReturnObjectToPool(Bollet anObject)
+    public void ReturnObjectToPool(Bullet anObject)
     {
         _objectPool.ReturnObject(anObject);
     }
