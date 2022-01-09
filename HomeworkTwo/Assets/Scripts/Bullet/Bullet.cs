@@ -1,65 +1,23 @@
 using System;
-using System.Collections;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody))]
 public class Bullet : MonoBehaviour, IPoolable
 {
-    [SerializeField, Range(0.0f, 100.0f)]
-    private float _speed = 50.0f;
-    [SerializeField, Range(0.0f, 20.0f)]
-    private float _lifeTime = 5.0f;
+    [SerializeField]
+    private int damage = 1;
 
-    private Rigidbody _rigidbody;
+    protected Action<Bullet> onEndLifetime;
 
-    private Action onEndLifetime;
-    private Coroutine _lifetimeCoroutine;
+    public Action<Bullet> OnEndLifetime { get => onEndLifetime; set => onEndLifetime = value; }
+    public int Damage { get => damage; set => damage = value; }
 
-    public Action OnEndLifetime { set => onEndLifetime = value; }
-
-    private void Awake()
-    {
-        _rigidbody = GetComponent<Rigidbody>();
-    }
-
-    private void FixedUpdate()
-    {
-        
-        Vector3 moveForce = transform.forward * _speed * Time.fixedDeltaTime;
-        _rigidbody.AddForce(moveForce, ForceMode.Force);
-    }
-
-    private IEnumerator LifeTime()
-    {
-        yield return new WaitForSeconds(_lifeTime);
-        SleepObject();
-    }
-
-    private void SleepObject()
-    {
-        _rigidbody.velocity = Vector3.zero;
-        gameObject.SetActive(false);
-        onEndLifetime.Invoke();
-    }
-
-    public void ReturnToPool()
-    {
-        gameObject.SetActive(false);
-        if (_lifetimeCoroutine != null)
-        {
-            StopCoroutine(_lifetimeCoroutine);
-            _lifetimeCoroutine = null;
-        }
-    }
-
-    public void RequestFromPool()
+    public virtual void RequestFromPool()
     {
         gameObject.SetActive(true);
-        _lifetimeCoroutine = StartCoroutine(LifeTime());
     }
 
-    private void OnCollisionEnter(Collision collision)
+    public virtual void ReturnToPool()
     {
-        SleepObject();
+        gameObject.SetActive(false);
     }
 }

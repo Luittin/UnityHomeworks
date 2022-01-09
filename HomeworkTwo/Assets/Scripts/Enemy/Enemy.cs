@@ -1,6 +1,5 @@
 using System;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class Enemy : MonoBehaviour, IPoolable
 {
@@ -8,26 +7,30 @@ public class Enemy : MonoBehaviour, IPoolable
     private float _speed = 2.0f;
 
     [SerializeField]
+    private int _damageValue = 2;
+
+    [SerializeField]
     private Transform target;
 
     private Action onEndLifetime;
     public Action OnEndLifetime { set => onEndLifetime = value; }
 
+    private void Start()
+    {
+        target = FindObjectOfType<PlayerMove>().transform;
+    }
+
     private void Update()
     {
+        transform.LookAt(target);
         transform.position = Vector3.MoveTowards(transform.position, target.position, _speed * Time.deltaTime);
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if(collision.gameObject.name == "Player")
+        if (collision.gameObject.name == "Player")
         {
-            StopAllCoroutines();
-            SceneManager.LoadScene("Game");
-        }
-        if(collision.gameObject.name.Contains("Bullet"))
-        {
-            SleepEnemy();
+            collision.gameObject.GetComponent<HealthPlayer>().Healths -= _damageValue;
         }
     }
 

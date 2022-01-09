@@ -1,30 +1,32 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
 {
-    private ObjectPool<Enemy> _enemyPool;
+    private ObjectPool<Enemy> _objectPool;
 
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject _objectPrefab;
 
     private void Awake()
     {
-        _enemyPool = new ObjectPool<Enemy>(CreateEnemy);
+        _objectPool = new ObjectPool<Enemy>(CreateObject);
     }
 
-    private Enemy CreateEnemy()
+    private Enemy CreateObject()
     {
-        var createdEnemy = Instantiate(_enemyPrefab).GetComponent<Enemy>();
-        return createdEnemy;
+        var createdBullet = Instantiate(_objectPrefab).GetComponent<Enemy>();
+        return createdBullet;
     }
 
-    public Enemy RequestEnemy()
+    public Enemy RequestObject()
     {
-        return _enemyPool.GetObject();
+        return _objectPool.GetObject();
     }
 
-    public void ReturnEnemyToPool(Enemy enemy)
+    public void ReturnObjectToPool(Enemy anObject)
     {
-        _enemyPool.ReturnObject(enemy);
+        _objectPool.ReturnObject(anObject);
     }
 }

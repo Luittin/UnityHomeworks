@@ -1,50 +1,89 @@
 using UnityEngine;
 
+public enum ButtonState
+{
+    PressDown = 0,
+    Hold = 1,
+    PressUp = 2,
+}
+
+public delegate void AxisHandler(float axisValue);
+public delegate void ButtonHandler(ButtonState buttonState);
+
+public delegate void ButtonNumberHandler(int numberButton);
+
 public class InputPlayer : MonoBehaviour
 {
-    [SerializeField]
-    private float _verticalPosition;
-    [SerializeField]
-    private float _horizontalPosition;
-    [SerializeField]
-    private float _mousePositionX;
-    [SerializeField]
-    private float _mousePositionY;
-    [SerializeField]
-    private bool _lightShooting = false;
-    [SerializeField]
-    private bool _hardShooting = false;
+    public event AxisHandler OnHorizontalAxis;
+    public event AxisHandler OnVerticalAxis;
+    public event AxisHandler OnVerticatMouseAxis;
+    public event AxisHandler OnHorizontalMouseAxis;
+    
+    public event AxisHandler OnMouseScrollWheel;
 
-    public float VerticalPosition { get => _verticalPosition; }
-    public float HorizontalPosition { get => _horizontalPosition; }
-    public float MousePositionX { get => _mousePositionX; }
-    public bool LightShooting { get => _lightShooting; }
-    public bool HardShooting { get => _hardShooting; }
-    public float MousePositionY { get => _mousePositionY; }
+    public event ButtonHandler OnFire;
+    public event ButtonHandler OnReload;
+
+    public event ButtonNumberHandler OnNumberButton;
+
+    private int _numberButton = 1;
+
+    public int NumberButton { set { _numberButton = value; OnNumberButton?.Invoke(_numberButton); } }
 
     private void Awake()
     {
-        DontDestroyOnLoad(gameObject);
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
-    // Update is called once per frame
     private void Update()
     {
-        _verticalPosition = Input.GetAxis("Vertical");
-        _horizontalPosition = Input.GetAxis("Horizontal");
+        OnHorizontalAxis?.Invoke(Input.GetAxis("Horizontal"));
+        OnVerticalAxis?.Invoke(Input.GetAxis("Vertical"));
+        OnHorizontalMouseAxis?.Invoke(Input.GetAxis("Mouse X"));
+        OnVerticatMouseAxis?.Invoke(Input.GetAxis("Mouse Y"));
+        OnMouseScrollWheel?.Invoke(Input.GetAxis("Mouse ScrollWheel"));
 
-        _mousePositionX = Input.GetAxis("Mouse X");
-        _mousePositionY = Input.GetAxis("Mouse Y");
+        ExecuteButtonHandle("Fire1", OnFire);
+        ExecuteButtonHandle("Reload", OnReload);
 
-        _lightShooting = Input.GetButton("Fire1");
+        NumberButtonHandler();
+    }
 
-        if (Input.GetButtonDown("Fire2"))
+    private void NumberButtonHandler()
+    {
+        if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            _hardShooting = true;
+            NumberButton = 0;
         }
-        if (Input.GetButtonUp("Fire2"))
+
+        if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            _hardShooting = false;
+            NumberButton = 1;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            NumberButton = 2;
+        }
+        if (Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            NumberButton = 3;
+        }
+    }
+
+    private void ExecuteButtonHandle(string actionName, ButtonHandler handler)
+    {
+        if (Input.GetButtonDown(actionName))
+        {
+            handler?.Invoke(ButtonState.PressDown);
+        }
+        else if (Input.GetButtonUp(actionName))
+        {
+            handler?.Invoke(ButtonState.PressUp);
+        }
+        else if (Input.GetButton(actionName))
+        {
+            handler?.Invoke(ButtonState.Hold);
         }
     }
 }
