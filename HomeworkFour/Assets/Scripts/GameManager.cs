@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 
 public class GameManager
@@ -19,5 +18,10 @@ public class GameManager
     public void OnAddCoins(int coins)
     {
         _countCoins += coins;
+    }
+
+    public void StopGame()
+    {
+        Time.timeScale = 0;
     }
 }

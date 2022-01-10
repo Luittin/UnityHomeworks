@@ -20,7 +20,7 @@ public class Coins : MonoBehaviour
         if(collision.gameObject.name == "Player")
         {
             onPickedCoin(_countCoins);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
     }
 }

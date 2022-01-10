@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 7586256282474041289}
   - component: {fileID: 7586256282474041294}
   - component: {fileID: 7586256282474041295}
-  - component: {fileID: 369967796420133854}
+  - component: {fileID: 4255469796349551515}
   m_Layer: 0
   m_Name: Square (2)
   m_TagString: Untagged
@@ -110,7 +110,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &369967796420133854
+--- !u!114 &4255469796349551515
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7586256282474041288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d60c12d4eb8f5074e8bfda5b37d13197, type: 3}
+  m_Script: {fileID: 11500000, guid: abaa2e65c477f504993fa3024f9c521e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7586256282747801140
@@ -214,7 +214,7 @@ GameObject:
   - component: {fileID: 7586256283438130216}
   - component: {fileID: 7586256283438130217}
   - component: {fileID: 7586256283438130222}
-  - component: {fileID: 5020068349061773509}
+  - component: {fileID: 1927526984054566750}
   m_Layer: 0
   m_Name: Square (1)
   m_TagString: Untagged
@@ -313,7 +313,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &5020068349061773509
+--- !u!114 &1927526984054566750
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -322,7 +322,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7586256283438130219}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d60c12d4eb8f5074e8bfda5b37d13197, type: 3}
+  m_Script: {fileID: 11500000, guid: abaa2e65c477f504993fa3024f9c521e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7586256283471289788
@@ -336,7 +336,7 @@ GameObject:
   - component: {fileID: 7586256283471289789}
   - component: {fileID: 7586256283471289794}
   - component: {fileID: 7586256283471289795}
-  - component: {fileID: 3843931418348127784}
+  - component: {fileID: 982792643053374596}
   m_Layer: 0
   m_Name: Square (3)
   m_TagString: Untagged
@@ -435,7 +435,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &3843931418348127784
+--- !u!114 &982792643053374596
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -444,7 +444,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7586256283471289788}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d60c12d4eb8f5074e8bfda5b37d13197, type: 3}
+  m_Script: {fileID: 11500000, guid: abaa2e65c477f504993fa3024f9c521e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &7586256283881831259
@@ -458,7 +458,7 @@ GameObject:
   - component: {fileID: 7586256283881831256}
   - component: {fileID: 7586256283881831257}
   - component: {fileID: 7586256283881831262}
-  - component: {fileID: 621400310882540480}
+  - component: {fileID: 100556530645005509}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -557,7 +557,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
---- !u!114 &621400310882540480
+--- !u!114 &100556530645005509
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -566,6 +566,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 7586256283881831259}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d60c12d4eb8f5074e8bfda5b37d13197, type: 3}
+  m_Script: {fileID: 11500000, guid: abaa2e65c477f504993fa3024f9c521e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
