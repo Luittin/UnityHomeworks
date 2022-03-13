@@ -13,7 +13,7 @@ public class InputHandler : MonoBehaviour
     {
         HorizontalHandler?.Invoke(Input.GetAxis("Horizontal"));
         
-        if (Input.GetButtonDown("Space"))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             PressstartHandler?.Invoke();
         }

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd"
+>
+    <engine:VisualElement name="ButtonHolder">
+      <engine:Label text="LoadChapter"/>
+      <editor:ObjectField name="LoadChapter"/>
+      <engine:Label text="Level"/>
+			<engine:Button name="DownLevel" class="ButtonList" text="--"/>
+      <engine:TextField name="Level" text="1"/>
+      <engine:Button name ="UpLevel" class="ButtonList" text="++"/>
+	  <engine:Button name="SaveButton" class="ButtonList" text="Save Preset"/>
+	  <engine:Button name="DeleteButton" class="ButtonList" text="Delete Preset"/>
+	</engine:VisualElement>
+
+	<engine:VisualElement name="Container">
+
+		<engine:VisualElement name="LeftPanel">
+				<engine:Label text="Saved Presets" style="-unity-font-style: bold; margin-top: 20px;"/>
+
+				<engine:ListView name="ListView"/>
+		</engine:VisualElement>
+
+		<engine:VisualElement name="RightPanel">
+
+			<engine:VisualElement name="RightTopPanel">
+					<engine:Label text="Description" style="-unity-font-style: bold; margin-top: 20px;"/>
+
+					<engine:Label text="This is a preset manager that will be able to create and save variations of this GameObject so that various styles can be tested throughout the development of the game." style="margin-top: 20px; white-space: normal; line-height: 5px; font-size: 15;"/>
+			</engine:VisualElement>
+	
+			<engine:VisualElement name="RightBottomPanel">
+					<engine:Label text="Preset Level Values" style="-unity-font-style: bold; margin-top: 20px; margin-bottom: 15px;"/>
+
+                <editor:Vector2Field name="DimensionsField" label="Dimensions"/>
+
+                <engine:Label name="BackgroundsLabel" text="Backgrounds"/>
+                <editor:Toolbar name ="Backgrounds" tabindex="0">
+                </editor:Toolbar>
+
+                <engine:Label name="BlocksLabel" text="Blocks"/>
+                <editor:Toolbar name ="Blocks" tabindex="0">         
+                </editor:Toolbar>
+
+                <engine:Label name="EffectsLabel" text="Effects"/>
+                <editor:Toolbar name="Effects" tabindex="0">            
+                </editor:Toolbar>
+        
+			</engine:VisualElement>
+
+		</engine:VisualElement>
+
+	</engine:VisualElement>
+</engine:UXML>
