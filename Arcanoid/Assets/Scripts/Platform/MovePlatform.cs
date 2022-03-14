@@ -1,13 +1,12 @@
 using UnityEngine;
 
+[RequireComponent(typeof(PlatformStats))]
 public class MovePlatform : MonoBehaviour
 {
     [SerializeField]
     private InputHandler _inputHandler;
     [SerializeField]
-    private float _speed = 2.0f;
-    [SerializeField]
-    private float _trafficLimiter = 1.4f;
+    private PlatformStats _platformStats;
 
     private float _direction = 0.0f;
 
@@ -20,15 +19,15 @@ public class MovePlatform : MonoBehaviour
     {
         Vector2 position = transform.position;
 
-        position.x += _direction * _speed * Time.deltaTime;
+        position.x += _direction * _platformStats.Speed * Time.deltaTime;
 
-        if(position.x >= _trafficLimiter)
+        if(position.x >= _platformStats.TrafficLimiter)
         {
-            position.x = _trafficLimiter;
+            position.x = _platformStats.TrafficLimiter;
         }
-        else if(position.x <= -_trafficLimiter)
+        else if(position.x <= -_platformStats.TrafficLimiter)
         {
-            position.x = -_trafficLimiter;
+            position.x = -_platformStats.TrafficLimiter;
         }       
 
         transform.position = position;    

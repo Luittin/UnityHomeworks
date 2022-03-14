@@ -1,23 +1,32 @@
 using UnityEngine;
 
 public class FillLevel : MonoBehaviour
-{
-    [SerializeField]
+{    
     private LevelObject _level;
-    [SerializeField]
     private ChapterObject _chapter;
+        
+    private Vector2 _startFieldPoin;
 
     [SerializeField]
-    private Vector2 _startFieldPoin;
+    private Background background;
+    [SerializeField]
+    private BallStats _ballStats;
+    [SerializeField]
+    private PlatformStats _platformStats;
 
     private void Awake()
     {
-        _level = Resources.Load<LevelObject>($"Assets/Resources/Chapter/Level.asset");
+        LevelSetting levelSetting = LevelSetting.Instantiate();
+        _level = Resources.Load<LevelObject>($"Assets/Resources/Chapter{levelSetting.ChapterNumber}/Level{levelSetting.LevelNumber}.asset");
         _chapter = _level._chapter;
+
+        FillGamePlane();
     }
 
     private void FillGamePlane()
     {
+        background.SetBackground(_chapter._backgrounds[_level._background]);
+
         int countBlockX = _level._presetBlock.GetLength(0);
         int countBlockY = _level._presetBlock.GetLength(1);
 
