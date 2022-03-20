@@ -2,6 +2,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
+using System.Collections.Generic;
 
 public class CreateLevel : EditorWindow
 {
@@ -19,26 +20,30 @@ public class CreateLevel : EditorWindow
     private int _countGroundY = 8;
     private int _maxCountGround = 10;
 
-    private VisualElement[,] _preset;
+    private FieldSquare[,] _levelSquares;
 
-    [MenuItem("Window/UI Toolkit/CreateLevel")]
+    private string UXML_FILE_PATH = "Assets/Scripts/Editor/CreateLevel.uxml";
+    private string USS_FILE_PATH = "Assets/Scripts/Editor/CreateLevel.uss";
+    private string LEVELS_FILE_PATH = "Assets/Resources/Chapters/Chapter{0}/Level{1}.asset";
+
+    [MenuItem("Arcanoid Levels/Create Level")]
     public static void ShowExample()
     {
         CreateLevel wnd = GetWindow<CreateLevel>();
-        wnd.titleContent = new GUIContent("CreateLevel");
+        wnd.titleContent = new GUIContent("Create Level");
     }
 
     private void OnEnable()
     {
         VisualElement root = rootVisualElement;
 
-        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/Scripts/Editor/CreateLevel.uxml");
+        var visualTree = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(UXML_FILE_PATH);
         VisualElement uxmlRoot = visualTree.CloneTree();
         root.Add(uxmlRoot);
 
-        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/Editor/CreateLevel.uss");
+        var styleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(USS_FILE_PATH);
 
-        var preMadeStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>("Assets/Scripts/Editor/CreateLevel.uss");
+        var preMadeStyleSheet = AssetDatabase.LoadAssetAtPath<StyleSheet>(USS_FILE_PATH);
 
         root.styleSheets.Add(styleSheet);
 
@@ -66,20 +71,26 @@ public class CreateLevel : EditorWindow
         Button decrementButton = rootVisualElement.Q<Button>("DownLevel");
         Button incrementButton = rootVisualElement.Q<Button>("UpLevel");
 
+        decrementButton.style.width = 25f;
+        decrementButton.style.height = 50f;
+
         decrementButton.clickable.clicked += () =>
         {
             if (_chapter != null && _currentNumberLevel >= 1)
-            {
+            {                
                 _currentNumberLevel--;
+                rootVisualElement.Q<Button>("Level").text = _currentNumberLevel.ToString();
                 OpenLevel();
             }            
         };
 
         incrementButton.clickable.clicked += () =>
         {
-            if (_chapter != null && _currentNumberLevel < _chapter.CountLevel)
-            {
+            Debug.Log(_chapter + "!!!" + _currentNumberLevel + "!!!" + _chapter.CountLevel);
+            if (_chapter != null && _currentNumberLevel < _chapter.CountLevel + 1)
+            {   
                 _currentNumberLevel++;
+                rootVisualElement.Q<Button>("Level").text = _currentNumberLevel.ToString();
                 OpenLevel();
             }
         };
@@ -102,7 +113,6 @@ public class CreateLevel : EditorWindow
     {
         var preset = rootVisualElement.Q<VisualElement>("LeftPanel");
 
-        _preset = new VisualElement[_countgroundX, _countGroundY];
         for(int i = 0; i < _countgroundX; i++)
         {
             var row = new VisualElement();
@@ -111,15 +121,18 @@ public class CreateLevel : EditorWindow
             {
                 Button buttonPreset = new Button();
                 buttonPreset.name = $"{i}|{j}";
-                _preset[i, j] = buttonPreset;
 
                 Image imageBlock = new Image();
                 imageBlock.name = $"{i}|{j} BlockImage";
+                imageBlock.style.width = 50.0f;
+                imageBlock.style.height = 20.0f;
 
                 buttonPreset.Add(imageBlock);
 
                 Image imageEffect = new Image();
                 imageEffect.name = $"{i}|{j} EffectImage";
+                imageEffect.style.width = 20.0f;
+                imageEffect.style.height = 20.0f;
 
                 imageBlock.Add(imageEffect);
 
@@ -137,13 +150,28 @@ public class CreateLevel : EditorWindow
         if(_chapter != null)
         {
             var backgrounds = rootVisualElement.Q<Label>("BackgroundsLabel");
+
+            Button button = new Button();
+            button.name = "Background_" + 0;
+            Image image = new Image();
+            image.style.width = 50f;
+            image.style.height = 50f;
+            image.image = null;
+            button.Add(image);
+
+            button.clickable.clickedWithEventInfo += SelectBlock;
+
+            backgrounds.Add(button);
+
             if (_chapter._backgrounds != null)
             {
                 for (int i = 0; i < _chapter._backgrounds.Length; i++)
                 {
-                    Button button = new Button();
-                    button.name = "Background_" + i;
-                    Image image = new Image();
+                    button = new Button();
+                    button.name = "Background_" + (i + 1);
+                    image = new Image();
+                    image.style.width = 50f;
+                    image.style.height = 50f;
                     image.image = _chapter._backgrounds[i];
                     button.Add(image);
 
@@ -154,36 +182,66 @@ public class CreateLevel : EditorWindow
             }
 
             var blocks = rootVisualElement.Q<Label>("BlocksLabel");
-            if (_chapter._backgrounds != null)
+
+            button = new Button();
+            button.name = "Block_" + 0;
+            image = new Image();
+            image.style.width = 50f;
+            image.style.height = 50f;
+            image.image = null;
+            button.Add(image);
+
+            button.clickable.clickedWithEventInfo += SelectBlock;
+
+            blocks.Add(button);
+
+            if (_chapter._blocks != null)
             {
                 for (int i = 0; i < _chapter._blocks.Length; i++)
                 {
-                    Button button = new Button();
-                    button.name = "Block_" + i;
-                    Image image = new Image();
+                    button = new Button();
+                    button.name = "Block_" + (i + 1);
+                    image = new Image();
+                    image.style.width = 50f;
+                    image.style.height = 50f;
                     image.image = _chapter._blocks[i]._iconBlock;
                     button.Add(image);
 
                     button.clickable.clickedWithEventInfo += SelectBlock;
 
-                    backgrounds.Add(button);
+                    blocks.Add(button);
                 }
             }
 
             var effects = rootVisualElement.Q<Label>("EffectsLabel");
-            if (_chapter._backgrounds != null)
+
+            button = new Button();
+            button.name = "Effeckt_" + 0;
+            image = new Image();
+            image.style.width = 50f;
+            image.style.height = 50f;
+            image.image = null;
+            button.Add(image);
+
+            button.clickable.clickedWithEventInfo += SelectEffect;
+
+            effects.Add(button);
+
+            if (_chapter._effects != null)
             {
                 for (int i = 0; i < _chapter._effects.Length; i++)
                 {
-                    Button button = new Button();
-                    button.name = "Effeckt_" + i;
-                    Image image = new Image();
+                    button = new Button();
+                    button.name = "Effeckt_" + (i + 1);
+                    image = new Image();
+                    image.style.width = 50f;
+                    image.style.height = 50f;
                     image.image = _chapter._effects[i]._iconEffect;
                     button.Add(image);
 
                     button.clickable.clickedWithEventInfo += SelectEffect;
 
-                    backgrounds.Add(button);
+                    effects.Add(button);
                 }
             }
         }
@@ -197,7 +255,8 @@ public class CreateLevel : EditorWindow
             _currentLevel._levelNumber = 1;
             _currentLevel._chapter = _chapter;
             _currentNumberLevel = 1;
-            CreateNewPresetInLevel();
+            Debug.Log(_currentLevel);
+            FullnessEmptyPresetInLevel();
             FillPreset();
         }
         else
@@ -209,21 +268,21 @@ public class CreateLevel : EditorWindow
 
     private void OpenLevel()
     {
-        _currentLevel = Resources.Load<LevelObject>($"Assets/Resources/Chapter{_chapter._numberChapter}/Level{_currentNumberLevel}.asset");
+        _currentLevel = LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter,_currentNumberLevel));
         FillPreset();
     }
 
     private void SelectBackground(EventBase element)
     {
         VisualElement background = (VisualElement)element.target;
-        _countBackground = int.Parse(background.name.Split('_')[1]); ;
-        _currentLevel._background = _countBackground;
+        _countBackground = int.Parse(background.name.Split('_')[1]);
+        _currentLevel._background = _countBackground - 1;
     }
 
     private void SelectBlock(EventBase element)
     {
         VisualElement block = (VisualElement)element.target;
-        _countBlock = int.Parse(block.name.Split('_')[1]); ;
+        _countBlock = int.Parse(block.name.Split('_')[1]);
         _countEffect = -1;
     }
 
@@ -235,46 +294,53 @@ public class CreateLevel : EditorWindow
     }
 
     //WorkToPreset
-    private void CreateNewPresetInLevel()
+    private void FullnessEmptyPresetInLevel()
     {
-        _currentLevel._presetBlock = new string[_countgroundX, _countGroundY];
+        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
         for(int i = 0; i < _countgroundX; i++)
         {
             for(int j = 0; j < _countGroundY; j++)
-            {
-                _currentLevel._presetBlock[i,j] = "0|0";
+            { 
+                FieldSquare fieldSquare = new FieldSquare();
+
+                fieldSquare.Row = i;
+                fieldSquare.Colum = j;
+                fieldSquare.BlockNumber = 0;
+                fieldSquare.EffectNumber = 0;
+
+                _levelSquares[i, j] = fieldSquare;
+
+                _currentLevel._levelSquares.Add(fieldSquare);                
             }
         }
     }
 
     private void FillPreset()
     {
-        for(int i = 0; i < _countgroundX; i++)
-        {
-            for(int j = 0; j < _countGroundY; j++)
-            {
-                string[] preset = _currentLevel._presetBlock[i, j].Split('|');
-                var imageBlock = rootVisualElement.Q<Image>($"{i}|{j} BlockImage");
-                var imageEffect = rootVisualElement.Q<Image>($"{i}|{j} EffectImage");
+        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
+        foreach(FieldSquare fieldSquare in _currentLevel._levelSquares) { 
+            Image imageBlock = rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} BlockImage");
+            Image imageEffect = rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} EffectImage");
 
-                if(preset[0] != "0")
-                {                    
-                    imageBlock.image = _chapter._blocks[int.Parse(preset[0])]._iconBlock;
-                }
-                else
-                {
-                    imageBlock.image = null;
-                }
-                if(preset[1] != "0")
-                {                    
-                    imageEffect.image = _chapter._effects[int.Parse(preset[1])]._iconEffect;
-                }
-                else
-                {
-                    imageBlock.image = null;
-                }
+            _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
+
+            if(fieldSquare.BlockNumber != 0)
+            {
+                rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} BlockImage").image = _chapter._blocks[fieldSquare.BlockNumber - 1]._iconBlock;
             }
-        }
+            else
+            {
+                imageBlock.image = null;
+            }
+            if(fieldSquare.EffectNumber != 0)
+            {      
+                imageEffect.image = _chapter._effects[fieldSquare.EffectNumber]._iconEffect;
+            }
+            else
+            {
+                imageBlock.image = null;
+            }            
+        }        
     }
 
     private void OnUpdatePreset(EventBase element)
@@ -297,36 +363,52 @@ public class CreateLevel : EditorWindow
     private void AddBlockForPreset(int i, int j)
     {
         Image image = rootVisualElement.Q<Image>($"{i}|{j} BlockImage");
-        Debug.Log(_chapter._blocks[_countBlock]._iconBlock);
-        image.image = _chapter._blocks[_countBlock]._iconBlock;
-        string presetData = _currentLevel._presetBlock[i, j];
-        presetData = $"{_countBlock}|" + presetData.Split('|')[1];
-        _currentLevel._presetBlock[i, j] = presetData;
+        image.image = _chapter._blocks[_countBlock - 1]._iconBlock;
+        _levelSquares[i, j].BlockNumber = _countBlock;
         
     }
 
     private void AddEffectForPreset(int i, int j)
     {
         Image image = rootVisualElement.Q<Image>($"{i}|{j} EffectImage");
-        image.image = _chapter._blocks[_countBlock]._iconBlock;
-        string presetData = _currentLevel._presetBlock[i, j];
-        presetData =  presetData.Split('|')[0] + $"|{_countBlock}";
-        _currentLevel._presetBlock[i, j] = presetData;
+        image.image = _chapter._effects[_countEffect - 1]._iconEffect;
+        _levelSquares[i, j].EffectNumber = _countEffect;
+    }
+
+    private void OnResetPreset()
+    {
+        FullnessEmptyPresetInLevel();
+        FillPreset();
     }
 
     private void OnSavePreset()
     {
-        if (Resources.Load<LevelObject>($"Assets/Resources/Chapters/Chapter{_chapter._numberChapter}/Level{_currentNumberLevel}.asset") == null)
+        if (LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel)) == null)
         {
-            AssetDatabase.CreateAsset(_currentLevel, $"Assets/Resources/Chapters/Chapter{_chapter._numberChapter}/Level{_currentLevel._levelNumber}.asset");
+            SavePressetForAsset();
+            _chapter.CountLevel++;
+            LoaderAssets<LevelObject>.CreateAsset(_currentLevel, string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel));
+        }
+    }
+
+    private void SavePressetForAsset()
+    {
+        _currentLevel._levelSquares = new List<FieldSquare>();
+        for (int i = 0; i < _countgroundX; i++)
+        {
+            for(int j = 0; j < _countGroundY; j++)
+            {
+                _currentLevel._levelSquares.Add(_levelSquares[i, j]);
+            }
         }
     }
 
     private void OnDelitePreset()
     {
-        if (Resources.Load<LevelObject>($"Assets/Resources/Chapters/Chapter{_chapter._numberChapter}/Level{_currentNumberLevel}.asset") == null)
+        if (LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel)) == null)
         {
-            AssetDatabase.DeleteAsset($"Assets/Resources/Chapters/Chapter{_chapter._numberChapter}/Level{_currentLevel._levelNumber}.asset");
+            LoaderAssets<LevelObject>.DeliteAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel));
+            _chapter.CountLevel--;
             _currentNumberLevel--;
             if (_currentNumberLevel > 0)
             {

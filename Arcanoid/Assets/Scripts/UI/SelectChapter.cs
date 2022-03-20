@@ -1,26 +1,24 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SelectChapter : MonoBehaviour
+public class SelectChapter : SelectedMenuItem
 {
     [SerializeField]
-    private Button _button;
+    protected UIMainMenuController _menuController;
 
-    private int _chapterNumber;
+    [SerializeField]
+    protected State _nextState;
 
-    private void Awake()
+    public void SetData(int number, UIMainMenuController menuController, State nextState)
     {
-        _button = GetComponent<Button>();
-        _button.onClick.AddListener(OnButtonDown);
+        _number = number;
+        _menuController = menuController;
+        _nextState = nextState;
     }
 
-    public void SetData(int chapter)
+    public override void OnButtonDown()
     {
-        _chapterNumber = chapter;
-    }
-
-    public void OnButtonDown()
-    {
-        LevelSetting.Instantiate().ChapterNumber = _chapterNumber;
+        LevelSetting.Instantiate().ChapterNumber = _number;
+        _menuController.ChangeState(_nextState);
     }
 }

@@ -6,5 +6,5 @@ using UnityEngine;
 public class BlockObject : ScriptableObject
 {
     public Texture _iconBlock;
-    public GameObject _prefabBlock;
+    public UnityEngine.GameObject _prefabBlock;
 }

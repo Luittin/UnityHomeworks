@@ -9,9 +9,9 @@
       <engine:Label text="LoadChapter"/>
       <editor:ObjectField name="LoadChapter"/>
       <engine:Label text="Level"/>
-			<engine:Button name="DownLevel" class="ButtonList" text="--"/>
-      <engine:TextField name="Level" text="1"/>
-      <engine:Button name ="UpLevel" class="ButtonList" text="++"/>
+			<engine:Button name="DownLevel" class="ButtonList" text="-" width="50" height = "50"/>
+      <engine:TextField name="Level" text="1" width="50" height = "50"/>
+      <engine:Button name ="UpLevel" class="ButtonList" text="+" width="50" height = "50"/>
 	  <engine:Button name="SaveButton" class="ButtonList" text="Save Preset"/>
 	  <engine:Button name="DeleteButton" class="ButtonList" text="Delete Preset"/>
 	</engine:VisualElement>

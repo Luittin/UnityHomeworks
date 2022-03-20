@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BallStats))]
 class Ball : MonoBehaviour
@@ -11,6 +12,8 @@ class Ball : MonoBehaviour
 
     [SerializeField]
     private Rigidbody2D _rigidbody;
+
+    public Action<AudioClip> OnCollision;
 
     private bool isStartMove = false;
 
@@ -40,6 +43,7 @@ class Ball : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        OnCollision?.Invoke(collision.gameObject.GetComponent<Stats>().AudioClip);
         CollisionEnter(collision.gameObject);
     }
 
@@ -48,7 +52,7 @@ class Ball : MonoBehaviour
         CollisionEnter(collision.gameObject);
     }
 
-    private void CollisionEnter(GameObject collision)
+    private void CollisionEnter(UnityEngine.GameObject collision)
     {
         if (collision.CompareTag("Block"))
         {

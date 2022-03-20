@@ -3,15 +3,17 @@ using UnityEngine;
 
 public class Block : MonoBehaviour
 {
-    private Action _destroyBloc;
-
     [SerializeField]
     private BlockHealth _blockHealth;
 
-    public Action DestroyBloc { get => _destroyBloc; set => _destroyBloc = value; }
+    [SerializeField]
+    private UnityEngine.GameObject effect;
+
+    public UnityEngine.GameObject Effect { get => effect; set => effect = value; }
 
     public void DestroyBlock()
     {
+        Instantiate(Effect);
         Destroy(this.gameObject);
     }
 }

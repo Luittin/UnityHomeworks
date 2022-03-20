@@ -5,7 +5,13 @@ public class FillSelectChapterMenu : MonoBehaviour
     [SerializeField]
     private RectTransform _content;
     [SerializeField]
-    private GameObject _chapterPrefab;
+    private UnityEngine.GameObject _chapterPrefab;
+
+    [SerializeField]
+    private UIMainMenuController _menuController;
+
+    [SerializeField]
+    private State _nextState;
 
     private void Awake()
     {
@@ -14,15 +20,11 @@ public class FillSelectChapterMenu : MonoBehaviour
 
     private void FillMenu()
     {
-        Vector2 startPosition = new Vector2(0.0f, 530.0f);
-
-        ChapterObject[] chapters = Resources.LoadAll<ChapterObject>("ChapterObjekt");
-        for (int i = 0; i < chapters.Length; i++)
+        ChapterObject[] chapters = LoaderAssets<ChapterObject>.GetAssets("ChapterObjekt");
+        foreach (ChapterObject chapter in chapters)
         {
-            Vector2 position = Vector2.zero;
-            position.y = startPosition.y - 530.0f * i;
-            SelectChapter chapter = Instantiate(_chapterPrefab, position, Quaternion.identity, _content).GetComponent<SelectChapter>();
-            chapter.SetData(chapters[i]._numberChapter);
+            SelectChapter selectChapter = Instantiate(_chapterPrefab, _content).GetComponent<SelectChapter>();
+            selectChapter.SetData(chapter._numberChapter, _menuController, _nextState);
         }
     }
 }

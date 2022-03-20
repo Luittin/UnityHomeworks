@@ -1,4 +1,4 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,5 +9,21 @@ public class LevelObject : ScriptableObject
     public int _levelNumber;
 
     public int _background;
-    public string[,] _presetBlock;
+    public List<FieldSquare> _levelSquares = new List<FieldSquare>();
+}
+
+[Serializable]
+public class FieldSquare
+{
+    [SerializeField] private int row;
+    [SerializeField] private int colum;
+
+    [SerializeField] private int blockNumber;
+    [SerializeField] private int effectNumber;
+
+    public int Row { get => row; set => row = value; }
+    public int Colum { get => colum; set => colum = value; }
+
+    public int BlockNumber { get => blockNumber; set => blockNumber = value; }
+    public int EffectNumber { get => effectNumber; set => effectNumber = value; }
 }

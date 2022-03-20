@@ -1,27 +1,13 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Button))]
-public class SelectLevel : MonoBehaviour
+public class SelectLevel : SelectedMenuItem
 {
-    [SerializeField]
-    private Button _button;
 
-    private int _levelNumber;
-
-    private void Awake()
+    public override void OnButtonDown()
     {
-        _button = GetComponent<Button>();
-        _button.onClick.AddListener(OnButtonDown);
-    }
-
-    public void SetData(int level)
-    {
-        _levelNumber = level;
-    }
-
-    public void OnButtonDown()
-    {
-        LevelSetting.Instantiate().LevelNumber = _levelNumber;
+        LevelSetting.Instantiate().LevelNumber = _number;
+        SceneManager.LoadScene("GameScene");
     }
 }

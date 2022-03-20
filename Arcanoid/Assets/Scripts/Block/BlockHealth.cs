@@ -21,7 +21,6 @@ public class BlockHealth : MonoBehaviour
             if (_blockStats.Health <= 0)
             {
                 _block.DestroyBlock();
-                //_block.DestroyBloc?.Invoke();
             }
         }
     }

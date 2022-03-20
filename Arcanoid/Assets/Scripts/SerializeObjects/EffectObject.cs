@@ -6,5 +6,5 @@ using UnityEngine;
 public class EffectObject : ScriptableObject
 {
     public Texture _iconEffect;
-    public GameObject _prefubEffect;
+    public UnityEngine.GameObject _prefubEffect;
 }

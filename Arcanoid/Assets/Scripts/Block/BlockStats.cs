@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BlockStats : MonoBehaviour
+public class BlockStats : Stats
 {
     [SerializeField]
     private int _health = 1;
