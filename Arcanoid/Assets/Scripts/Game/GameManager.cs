@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -22,8 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private LevelObject _level;
     [SerializeField]
-    private ChapterObject _chapter;       
-
+    private ChapterObject _chapter;
 
     private void Awake()
     {
