@@ -16,6 +16,13 @@ public class Effect : MonoBehaviour
 
     protected Action _stopEffect;
 
+    public Stats Stats { get => _stats; set => _stats = value; }
+    
+    public virtual void StartEffect()
+    {
+        
+    }
+    
     protected IEnumerator TimerEffect()
     {
         while(_currentTime >= 0)

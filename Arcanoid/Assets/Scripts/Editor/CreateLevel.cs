@@ -79,7 +79,7 @@ public class CreateLevel : EditorWindow
             if (_chapter != null && _currentNumberLevel >= 1)
             {                
                 _currentNumberLevel--;
-                rootVisualElement.Q<Button>("Level").text = _currentNumberLevel.ToString();
+                rootVisualElement.Q<TextField>("Level").value = _currentNumberLevel.ToString();
                 OpenLevel();
             }            
         };
@@ -90,7 +90,7 @@ public class CreateLevel : EditorWindow
             if (_chapter != null && _currentNumberLevel < _chapter.CountLevel + 1)
             {   
                 _currentNumberLevel++;
-                rootVisualElement.Q<Button>("Level").text = _currentNumberLevel.ToString();
+                rootVisualElement.Q<TextField>("Level").value = _currentNumberLevel.ToString();
                 OpenLevel();
             }
         };

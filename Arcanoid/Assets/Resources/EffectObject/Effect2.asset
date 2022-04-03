@@ -13,4 +13,6 @@ MonoBehaviour:
   m_Name: Effect2
   m_EditorClassIdentifier: 
   _iconEffect: {fileID: 2800000, guid: 9d395c450e1b29941ad27c67e5a13902, type: 3}
-  _prefubEffect: {fileID: 3786175572099275646, guid: c26f94ab69ad66548a6f8723b4a2cc0e, type: 3}
+  _target: 0
+  _prefabBonus: {fileID: 3786175572099275646, guid: c26f94ab69ad66548a6f8723b4a2cc0e, type: 3}
+  _prefabEffect: {fileID: 6123554847502921601, guid: 710f11cedce48fe43af0fa7c32f16c81, type: 3}

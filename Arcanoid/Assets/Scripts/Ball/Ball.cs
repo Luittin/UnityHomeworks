@@ -2,11 +2,14 @@
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D), typeof(BallStats))]
-class Ball : MonoBehaviour
+public class Ball : MonoBehaviour
 {
     [SerializeField]
     private BallStats _ballStats;
 
+    [SerializeField]
+    private Vector2 _startPosition;
+    
     [SerializeField]
     private InputHandler _inputHandler;
 
@@ -14,7 +17,8 @@ class Ball : MonoBehaviour
     private Rigidbody2D _rigidbody;
 
     public Action<AudioClip> OnCollision;
-
+    public Action<Ball> DepartureAbroad;
+    
     private bool isStartMove = false;
 
     private void Awake()
@@ -35,15 +39,24 @@ class Ball : MonoBehaviour
         isStartMove = true;
     }
 
-    public void OnstopMoveBall()
+    public void StopBall()
     {
         isStartMove = false;
         _rigidbody.velocity = Vector2.zero;
     }
 
+    public void MoveStartPosition()
+    {
+        transform.position = _startPosition;
+    }
+    
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        OnCollision?.Invoke(collision.gameObject.GetComponent<Stats>().AudioClip);
+        if (collision.gameObject.GetComponent<Stats>() != null)
+        {
+            OnCollision?.Invoke(collision.gameObject.GetComponent<Stats>().AudioClip);
+        }
+
         CollisionEnter(collision.gameObject);
     }
 
@@ -52,11 +65,16 @@ class Ball : MonoBehaviour
         CollisionEnter(collision.gameObject);
     }
 
-    private void CollisionEnter(UnityEngine.GameObject collision)
+    private void CollisionEnter(GameObject collision)
     {
         if (collision.CompareTag("Block"))
         {
             collision.GetComponent<BlockHealth>().DecrementHealth(_ballStats.Damage);
+        }
+
+        if (collision.CompareTag("BallCatcher"))
+        {
+            DepartureAbroad?.Invoke(this);
         }
     }
 }

@@ -7,13 +7,15 @@ public class Block : MonoBehaviour
     private BlockHealth _blockHealth;
 
     [SerializeField]
-    private UnityEngine.GameObject effect;
+    private int _numberPresetEffect;
 
-    public UnityEngine.GameObject Effect { get => effect; set => effect = value; }
+    public Action<int, Transform> destroyBlock;
+
+    public int NumberPresetEffect { get => _numberPresetEffect; set => _numberPresetEffect = value; }
 
     public void DestroyBlock()
     {
-        Instantiate(Effect);
+        destroyBlock?.Invoke(_numberPresetEffect, transform);
         Destroy(this.gameObject);
     }
 }

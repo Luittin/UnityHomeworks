@@ -7,12 +7,17 @@ public class GameManager : MonoBehaviour
     private int _maxLives = 3;
     [SerializeField]
     private int _countLives = 3;
+    [SerializeField]
+    private int _countBlock;
 
     [SerializeField]
-    private Vector2 _startFieldPoin;
+    private List<Ball> _balls;
 
+    [SerializeField] 
+    private GenerationLevel _generationLevel;
+    
     [SerializeField]
-    private Background background;
+    private Background _background;
     [SerializeField]
     private BallStats _ballStats;
     [SerializeField]
@@ -24,43 +29,75 @@ public class GameManager : MonoBehaviour
     private LevelObject _level;
     [SerializeField]
     private ChapterObject _chapter;
-
+    
+    public Background Background => _background;
+    public BallStats BallStats => _ballStats;
+    public PlatformStats PlatformStats => _platformStats;
+    public AudioManager AudioManager => _audioManager;
+    public LevelObject Level => _level;
+    public ChapterObject Chapter => _chapter;
+    
     private void Awake()
     {
         LevelSetting levelSetting = LevelSetting.Instantiate();
         _level = LoaderAssets<LevelObject>.GetAsset($"Assets/Resources/Chapters/Chapter{levelSetting.ChapterNumber}/Level{levelSetting.LevelNumber}.asset");
         _chapter = _level._chapter;
 
-        FillGamePlane();
+        _balls = new List<Ball>();
+        _balls.Add(_ballStats.GetComponent<Ball>());
+        
+        _countBlock = _generationLevel.StartFill(this);
     }
 
-    private void FillGamePlane()
+    public void OnDepartureAbroadBall(Ball ball)
     {
-        if (_level._background < 0)
+        if (_balls.Count > 1)
         {
-            background.SetBackground(_chapter._backgrounds[_level._background]);
+            ball.StopBall();
+            Destroy(ball.gameObject);
+        }
+        else
+        {
+            ball.StopBall();
+            ball.MoveStartPosition();
+            _countLives--;
+            if (_countLives == 0)
+            {
+                EndGame();
+            }
+        }
+    }
+
+    private void EndGame()
+    {
+        Time.timeScale = 0;
+    }
+    
+    public void OnDestroyBlockFromBonus(int numberPresetEffect, Transform transformBlock)
+    {
+        _countBlock--;
+        if (_countBlock == 0)
+        {
+            Time.timeScale = 0;
+            return;
+        }
+        _generationLevel.CreateBonus(numberPresetEffect,transformBlock);
+    }
+    
+    public void OnSelectedEffect(TargetEffect target, int numberEffect)
+    {
+        Transform targetTransform = null;
+        
+        switch (target)
+        {
+            case TargetEffect.Platform:
+                targetTransform = _platformStats.transform; 
+                break;
+            case TargetEffect.Ball:
+                targetTransform = _ballStats.transform;
+                break;
         }
 
-        _ballStats.GetComponent<Ball>().OnCollision += _audioManager.OnPlayAudio;
-
-        float stepInstantiateX = 0.8f;
-        float stepInstantiateY = 0.5f;
-        Debug.Log(stepInstantiateX);
-
-        foreach(FieldSquare fieldSquare in _level._levelSquares)
-        { 
-                if(fieldSquare.BlockNumber > 0)
-                {
-                    Vector2 createPosition = new Vector2(_startFieldPoin.x + stepInstantiateX * fieldSquare.Row, _startFieldPoin.y - stepInstantiateY * fieldSquare.Colum);
-
-                    Block block = Instantiate(_chapter._blocks[fieldSquare.BlockNumber - 1]._prefabBlock, createPosition, Quaternion.identity).GetComponent<Block>();
-                    
-                    if(fieldSquare.EffectNumber > 0)
-                    {
-                        block.Effect = _chapter._effects[fieldSquare.EffectNumber - 1]._prefubEffect;
-                    }
-                }
-            
-        }
+        _generationLevel.CreateEffect(targetTransform, numberEffect);
     }
 }
