@@ -106,43 +106,33 @@ public class CreateLevel : EditorWindow
         var dimension = root.Q<Vector2Field>("DimensionsField");
         dimension.value = new Vector2(_countgroundX, _countGroundY);
 
-        CreatePresetInWindows();
+        //CreatePresetInWindows();
     }
 
-    private void CreatePresetInWindows()
+    private void CreatePresetElement(VisualElement parentVisualElement, int row, int column, Texture textureBlock, Texture textureEffect)
     {
-        var preset = rootVisualElement.Q<VisualElement>("LeftPanel");
+        Button buttonPreset = new Button();
+        buttonPreset.name = $"{row}|{column}";
 
-        for(int i = 0; i < _countgroundX; i++)
-        {
-            var row = new VisualElement();
-            row.style.flexDirection = FlexDirection.Row;
-            for(int j = 0; j < _countGroundY; j++)
-            {
-                Button buttonPreset = new Button();
-                buttonPreset.name = $"{i}|{j}";
-
-                Image imageBlock = new Image();
-                imageBlock.name = $"{i}|{j} BlockImage";
-                imageBlock.style.width = 50.0f;
-                imageBlock.style.height = 20.0f;
-
-                buttonPreset.Add(imageBlock);
-
-                Image imageEffect = new Image();
-                imageEffect.name = $"{i}|{j} EffectImage";
-                imageEffect.style.width = 20.0f;
-                imageEffect.style.height = 20.0f;
-
-                imageBlock.Add(imageEffect);
-
-                buttonPreset.clickable.clickedWithEventInfo += OnUpdatePreset;
-
-                row.Add(buttonPreset);
-            }
-            preset.Add(row);
-        }
+        Image imageBlock = new Image();
+        imageBlock.name = $"{row}|{column} BlockImage";
+        imageBlock.style.width = 50.0f;
+        imageBlock.style.height = 20.0f;
+        imageBlock.image = textureBlock;
         
+        buttonPreset.Add(imageBlock);
+
+        Image imageEffect = new Image();
+        imageEffect.name = $"{row}|{column} EffectImage";
+        imageEffect.style.width = 20.0f;
+        imageEffect.style.height = 20.0f;
+        imageEffect.image = textureEffect;
+        
+        imageBlock.Add(imageEffect);
+
+        buttonPreset.clickable.clickedWithEventInfo += OnUpdatePreset;
+
+        parentVisualElement.Add(buttonPreset);
     }
 
     private void PopulatePresetList()
@@ -269,6 +259,10 @@ public class CreateLevel : EditorWindow
     private void OpenLevel()
     {
         _currentLevel = LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter,_currentNumberLevel));
+        if (_currentLevel == null)
+        {
+            FullnessEmptyPresetInLevel();
+        }
         FillPreset();
     }
 
@@ -296,6 +290,9 @@ public class CreateLevel : EditorWindow
     //WorkToPreset
     private void FullnessEmptyPresetInLevel()
     {
+        _currentLevel = new LevelObject();
+        _currentLevel._chapter = _chapter;
+        _currentLevel._levelNumber = _currentNumberLevel;
         _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
         for(int i = 0; i < _countgroundX; i++)
         {
@@ -317,30 +314,47 @@ public class CreateLevel : EditorWindow
 
     private void FillPreset()
     {
+        _currentNumberLevel = _currentLevel._levelNumber;
+        rootVisualElement.Q<TextField>("Level").value = _currentNumberLevel.ToString();
+        
         _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
-        foreach(FieldSquare fieldSquare in _currentLevel._levelSquares) { 
-            Image imageBlock = rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} BlockImage");
-            Image imageEffect = rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} EffectImage");
 
+        foreach (FieldSquare fieldSquare in _currentLevel._levelSquares)
+        {
             _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
-
-            if(fieldSquare.BlockNumber != 0)
+        }
+        
+        var preset = rootVisualElement.Q<VisualElement>("ListView");
+        preset.Clear();
+        for (int i = 0; i < _countgroundX; i++)
+        {
+            var row = new VisualElement();
+            row.style.flexDirection = FlexDirection.Row;
+            for (int j = 0; j < _countGroundY; j++)
             {
-                rootVisualElement.Q<Image>($"{fieldSquare.Row}|{fieldSquare.Colum} BlockImage").image = _chapter._blocks[fieldSquare.BlockNumber - 1]._iconBlock;
+                Texture imageBlock;
+                Texture imageEffect;
+                
+                if(_levelSquares[i,j].BlockNumber != 0)
+                {
+                    imageBlock = _chapter._blocks[_levelSquares[i,j].BlockNumber - 1]._iconBlock;
+                }
+                else
+                {
+                    imageBlock = null;
+                }
+                if(_levelSquares[i,j].EffectNumber != 0)
+                {
+                    imageEffect = _chapter._effects[_levelSquares[i,j].EffectNumber]._iconEffect;
+                }
+                else
+                {
+                    imageEffect = null;
+                }
+                CreatePresetElement(row, i, j, imageBlock, imageEffect);
             }
-            else
-            {
-                imageBlock.image = null;
-            }
-            if(fieldSquare.EffectNumber != 0)
-            {      
-                imageEffect.image = _chapter._effects[fieldSquare.EffectNumber]._iconEffect;
-            }
-            else
-            {
-                imageBlock.image = null;
-            }            
-        }        
+            preset.Add(row);
+        }     
     }
 
     private void OnUpdatePreset(EventBase element)
@@ -363,7 +377,15 @@ public class CreateLevel : EditorWindow
     private void AddBlockForPreset(int i, int j)
     {
         Image image = rootVisualElement.Q<Image>($"{i}|{j} BlockImage");
-        image.image = _chapter._blocks[_countBlock - 1]._iconBlock;
+        if (_countBlock == 0)
+        {
+            image.image = null;
+        }
+        else
+        {
+            image.image = _chapter._blocks[_countBlock - 1]._iconBlock;
+        }
+
         _levelSquares[i, j].BlockNumber = _countBlock;
         
     }
@@ -371,7 +393,15 @@ public class CreateLevel : EditorWindow
     private void AddEffectForPreset(int i, int j)
     {
         Image image = rootVisualElement.Q<Image>($"{i}|{j} EffectImage");
-        image.image = _chapter._effects[_countEffect - 1]._iconEffect;
+        if (_countEffect == 0)
+        {
+            image.image = null;
+        }
+        else
+        {
+            image.image = _chapter._effects[_countEffect - 1]._iconEffect;
+        }
+
         _levelSquares[i, j].EffectNumber = _countEffect;
     }
 

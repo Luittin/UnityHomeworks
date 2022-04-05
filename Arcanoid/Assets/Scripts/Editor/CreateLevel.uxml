@@ -21,7 +21,7 @@
 		<engine:VisualElement name="LeftPanel">
 				<engine:Label text="Saved Presets" style="-unity-font-style: bold; margin-top: 20px;"/>
 
-				<engine:ListView name="ListView"/>
+				<engine:VisualElement name="ListView"/>
 		</engine:VisualElement>
 
 		<engine:VisualElement name="RightPanel">
