@@ -241,11 +241,9 @@ public class CreateLevel : EditorWindow
     {
         if(_chapter.CountLevel == 0)
         {
-            _currentLevel = new LevelObject();
+            CreatePresetLevel();
             _currentLevel._levelNumber = 1;
-            _currentLevel._chapter = _chapter;
             _currentNumberLevel = 1;
-            Debug.Log(_currentLevel);
             FullnessEmptyPresetInLevel();
             FillPreset();
         }
@@ -256,43 +254,30 @@ public class CreateLevel : EditorWindow
         }
     }
 
+    private void CreatePresetLevel()
+    {
+        _currentLevel = new LevelObject();
+        _currentLevel._chapter = _chapter;
+        FullnessEmptyPresetInLevel();
+    }
+    
     private void OpenLevel()
     {
         _currentLevel = LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter,_currentNumberLevel));
         if (_currentLevel == null)
         {
+            CreatePresetLevel();
+            _currentLevel._levelNumber = _currentNumberLevel;
             FullnessEmptyPresetInLevel();
         }
+        
         FillPreset();
     }
 
-    private void SelectBackground(EventBase element)
-    {
-        VisualElement background = (VisualElement)element.target;
-        _countBackground = int.Parse(background.name.Split('_')[1]);
-        _currentLevel._background = _countBackground - 1;
-    }
-
-    private void SelectBlock(EventBase element)
-    {
-        VisualElement block = (VisualElement)element.target;
-        _countBlock = int.Parse(block.name.Split('_')[1]);
-        _countEffect = -1;
-    }
-
-    private void SelectEffect(EventBase element)
-    {
-        VisualElement effect = (VisualElement)element.target;
-        _countEffect = int.Parse(effect.name.Split('_')[1]);
-        _countBlock = -1;
-    }
 
     //WorkToPreset
     private void FullnessEmptyPresetInLevel()
     {
-        _currentLevel = new LevelObject();
-        _currentLevel._chapter = _chapter;
-        _currentLevel._levelNumber = _currentNumberLevel;
         _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
         for(int i = 0; i < _countgroundX; i++)
         {
@@ -312,17 +297,22 @@ public class CreateLevel : EditorWindow
         }
     }
 
+    private void FillArrayPreset()
+    {
+        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
+        
+        foreach (FieldSquare fieldSquare in _currentLevel._levelSquares)
+        {
+            _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
+        }
+    }
+    
     private void FillPreset()
     {
         _currentNumberLevel = _currentLevel._levelNumber;
         rootVisualElement.Q<TextField>("Level").value = _currentNumberLevel.ToString();
         
-        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
-
-        foreach (FieldSquare fieldSquare in _currentLevel._levelSquares)
-        {
-            _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
-        }
+        FillArrayPreset();
         
         var preset = rootVisualElement.Q<VisualElement>("ListView");
         preset.Clear();
@@ -357,6 +347,28 @@ public class CreateLevel : EditorWindow
         }     
     }
 
+    private void SelectBackground(EventBase element)
+    {
+        VisualElement background = (VisualElement)element.target;
+        _countBackground = int.Parse(background.name.Split('_')[1]);
+        _currentLevel._background = _countBackground - 1;
+        
+    }
+    
+    private void SelectBlock(EventBase element)
+    {
+        VisualElement block = (VisualElement)element.target;
+        _countBlock = int.Parse(block.name.Split('_')[1]);
+        _countEffect = -1;
+        
+    }
+    private void SelectEffect(EventBase element)
+    {
+        VisualElement effect = (VisualElement)element.target;
+        _countEffect = int.Parse(effect.name.Split('_')[1]);
+        _countBlock = -1;
+    }
+    
     private void OnUpdatePreset(EventBase element)
     {
         VisualElement preset = (VisualElement)element.target;
@@ -435,7 +447,7 @@ public class CreateLevel : EditorWindow
 
     private void OnDelitePreset()
     {
-        if (LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel)) == null)
+        if (LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel)) != null)
         {
             LoaderAssets<LevelObject>.DeliteAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter, _currentNumberLevel));
             _chapter.CountLevel--;

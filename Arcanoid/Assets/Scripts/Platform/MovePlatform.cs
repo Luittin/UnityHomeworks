@@ -5,8 +5,6 @@ using UnityEngine;
 public class MovePlatform : MonoBehaviour
 {
     [SerializeField]
-    private InputHandler _inputHandler;
-    [SerializeField]
     private PlatformStats _platformStats;
 
     [SerializeField]
@@ -16,18 +14,13 @@ public class MovePlatform : MonoBehaviour
 
     public Action<TargetEffect, int> _trigerBonus;
 
-    private void Awake()
-    {
-        _inputHandler.HorizontalHandler += OnDirection;
-    }
-
     private void Update()
     {
         Vector2 position = transform.position;
 
         position.x += _direction * _platformStats.Speed * Time.deltaTime;
 
-        Mathf.Clamp(position.x, -_platformStats.TrafficLimiter, _platformStats.TrafficLimiter);      
+        position.x = Mathf.Clamp(position.x, -_platformStats.TrafficLimiter, _platformStats.TrafficLimiter);      
 
         transform.position = position;    
     }

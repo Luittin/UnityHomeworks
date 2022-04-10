@@ -11,7 +11,7 @@ public class Ball : MonoBehaviour
     private Vector2 _startPosition;
     
     [SerializeField]
-    private InputHandler _inputHandler;
+    private BallSight _inputHandler;
 
     [SerializeField]
     private Rigidbody2D _rigidbody;
@@ -26,15 +26,13 @@ public class Ball : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
 
         _ballStats = GetComponent<BallStats>();
-
-        _inputHandler.PressstartHandler += OnstartMoveBall;
     }
 
-    public void OnstartMoveBall()
+    public void StartMoveBall(Vector2 direction)
     {
         if (isStartMove == false)
         {
-            _rigidbody.AddForce(_ballStats.Direction * _ballStats.Speed, ForceMode2D.Impulse);
+            _rigidbody.AddForce(direction * _ballStats.Speed, ForceMode2D.Impulse);
         }
         isStartMove = true;
     }

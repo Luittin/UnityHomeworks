@@ -17,8 +17,13 @@ public class Effect : MonoBehaviour
     protected Action _stopEffect;
 
     public Stats Stats { get => _stats; set => _stats = value; }
-    
+
     public virtual void StartEffect()
+    {
+        
+    }
+
+    protected virtual void StopEffect()
     {
         
     }

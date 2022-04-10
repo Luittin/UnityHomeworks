@@ -37,13 +37,13 @@ public class GenerationLevel : MonoBehaviour
         {
             if(fieldSquare.BlockNumber > 0)
             {
-                Vector2 createPosition = new Vector2(_startFieldPoin.x + stepInstantiateX * fieldSquare.Row, _startFieldPoin.y - stepInstantiateY * fieldSquare.Colum);
+                Vector2 createPosition = new Vector2(_startFieldPoin.x + stepInstantiateX * fieldSquare.Colum, _startFieldPoin.y - stepInstantiateY * fieldSquare.Row);
 
                 Block block = Instantiate(_gameManager.Chapter._blocks[fieldSquare.BlockNumber - 1]._prefabBlock, createPosition, Quaternion.identity).GetComponent<Block>();
 
                 countBlock++;
                 
-                if (fieldSquare.EffectNumber > -1)
+                if (fieldSquare.EffectNumber > 0)
                 {
                     block.NumberPresetEffect = fieldSquare.EffectNumber;
                     block.destroyBlock += _gameManager.OnDestroyBlockFromBonus;
@@ -57,14 +57,16 @@ public class GenerationLevel : MonoBehaviour
 
     public void CreateBonus(int numberPresetEffect, Transform transformBlock)
     {
-        GameObject prefabBonus = _gameManager.Chapter._effects[numberPresetEffect]._prefabBonus;
+        Debug.Log(numberPresetEffect);
+        GameObject prefabBonus = _gameManager.Chapter._effects[numberPresetEffect - 1]._prefabBonus;
+        Debug.Log(prefabBonus);
         Bonus bonus = Instantiate(prefabBonus, transformBlock.position, Quaternion.identity).GetComponent<Bonus>();
         bonus.NumberEffect = numberPresetEffect;
     }
 
     public void CreateEffect(Transform target, int numberEffect)
     {
-        Effect effect = Instantiate(_gameManager.Chapter._effects[numberEffect]._prefabEffect, target).GetComponent<Effect>();
+        Effect effect = Instantiate(_gameManager.Chapter._effects[numberEffect - 1]._prefabEffect).GetComponent<Effect>();
         effect.Stats = target.GetComponent<Stats>();
         effect.StartEffect();
     }

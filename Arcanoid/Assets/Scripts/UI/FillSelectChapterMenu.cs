@@ -1,11 +1,12 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class FillSelectChapterMenu : MonoBehaviour
 {
     [SerializeField]
     private RectTransform _content;
     [SerializeField]
-    private UnityEngine.GameObject _chapterPrefab;
+    private GameObject _chapterPrefab;
 
     [SerializeField]
     private UIMainMenuController _menuController;
@@ -25,6 +26,8 @@ public class FillSelectChapterMenu : MonoBehaviour
         {
             SelectChapter selectChapter = Instantiate(_chapterPrefab, _content).GetComponent<SelectChapter>();
             selectChapter.SetData(chapter._numberChapter, _menuController, _nextState);
+            Texture texture = chapter._backgrounds[0];
+            selectChapter.GetComponent<Image>().sprite = Sprite.Create((Texture2D)texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
         }
     }
 }

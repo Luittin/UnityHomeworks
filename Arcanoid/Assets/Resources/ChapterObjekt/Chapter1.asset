@@ -14,11 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _numberChapter: 1
   _nameChapter: One
-  _backgrounds: []
+  _backgrounds:
+  - {fileID: 2800000, guid: b8cfdc55f0f07764a911d2370fa3586e, type: 3}
   _blocks:
   - {fileID: 11400000, guid: 3061c55c00922924c9b1da567e87fdf6, type: 2}
   - {fileID: 11400000, guid: 3a1921cefb303e24693d9e50021f2e6b, type: 2}
   _effects:
   - {fileID: 11400000, guid: 44da4f5e3a9ee4a41bf03dbff3228721, type: 2}
   - {fileID: 11400000, guid: 8eb4af0d3e3c08342aff125ee4bf1cb2, type: 2}
-  _countLevel: 1
+  _countLevel: 4

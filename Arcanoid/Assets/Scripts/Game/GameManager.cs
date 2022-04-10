@@ -22,13 +22,26 @@ public class GameManager : MonoBehaviour
     private BallStats _ballStats;
     [SerializeField]
     private PlatformStats _platformStats;
+    private MovePlatform _movePlatform;
     [SerializeField]
     private AudioManager _audioManager;
 
+    [SerializeField] 
+    private UIGameMenuController _menuController;
+    
+    [SerializeField] 
+    private InputTouchHandler _touchHandler;
+    [SerializeField] 
+    private InputJoystickHandler _joystickHandler;
+    [SerializeField] 
+    private BallSight _ballSight;
+    
     [SerializeField]
     private LevelObject _level;
     [SerializeField]
     private ChapterObject _chapter;
+
+    private bool isMoveBall = false;
     
     public Background Background => _background;
     public BallStats BallStats => _ballStats;
@@ -39,16 +52,39 @@ public class GameManager : MonoBehaviour
     
     private void Awake()
     {
-        LevelSetting levelSetting = LevelSetting.Instantiate();
-        _level = LoaderAssets<LevelObject>.GetAsset($"Assets/Resources/Chapters/Chapter{levelSetting.ChapterNumber}/Level{levelSetting.LevelNumber}.asset");
-        _chapter = _level._chapter;
-
+        _menuController.ShowSight();
+        
+        _movePlatform = _platformStats.GetComponent<MovePlatform>();
+        
         _balls = new List<Ball>();
         _balls.Add(_ballStats.GetComponent<Ball>());
         
+         
+        _touchHandler.HorizontalHandler += _joystickHandler.OnDragTouch;
+        _touchHandler.HorizontalHandler += _ballSight.OnDrag;
+                
+        _touchHandler.TouchUpOrDown += _joystickHandler.OnTouchUpDown;
+        _touchHandler.TouchUpOrDown += _ballSight.OnTouchUpDown;
+                
+        _ballSight.DirectionSight += OnPushBall;
+        
+        LevelSetting levelSetting = LevelSetting.Instantiate();
+        _level = LoaderAssets<LevelObject>.GetAsset($"Assets/Resources/Chapters/Chapter{levelSetting.ChapterNumber}/Level{levelSetting.LevelNumber}.asset");
+        _chapter = _level._chapter;
         _countBlock = _generationLevel.StartFill(this);
     }
 
+    public void OnPushBall(Vector2 direction)
+    {
+        if (!isMoveBall)
+        {
+            _balls[0].StartMoveBall(direction);
+            _menuController.ShowTouch();
+            _joystickHandler.HorizontalHandler += _movePlatform.OnDirection;
+            _ballSight.DirectionSight -= OnPushBall;
+        }
+    }
+    
     public void OnDepartureAbroadBall(Ball ball)
     {
         if (_balls.Count > 1)
@@ -61,6 +97,11 @@ public class GameManager : MonoBehaviour
             ball.StopBall();
             ball.MoveStartPosition();
             _countLives--;
+            
+            _ballSight.DirectionSight += OnPushBall;
+            _joystickHandler.HorizontalHandler -= _movePlatform.OnDirection;
+            _menuController.ShowSight();
+            
             if (_countLives == 0)
             {
                 EndGame();
@@ -70,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+        _menuController.OpenPauseMenu();
         Time.timeScale = 0;
     }
     

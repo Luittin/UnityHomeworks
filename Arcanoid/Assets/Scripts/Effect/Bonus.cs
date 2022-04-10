@@ -5,7 +5,7 @@ public class Bonus : MonoBehaviour
     [SerializeField]
     private float _muveSpeed = 2.0f;
     [SerializeField]
-    private float _destroyPosition = 8.0f;
+    private float _destroyPosition = -8.0f;
 
     [SerializeField]
     private Vector2 _numberPresetBlock;
@@ -29,5 +29,7 @@ public class Bonus : MonoBehaviour
         {
             Destroy(this.gameObject);
         }
+
+        transform.position = position;
     }
 }

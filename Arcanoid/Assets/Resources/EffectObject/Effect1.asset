@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3c59444679a6944fafdc512362f24ea, type: 3}
   m_Name: Effect1
   m_EditorClassIdentifier: 
-  _iconEffect: {fileID: 2800000, guid: 6ec0208f9a7b2f246a2f5e725416302d, type: 3}
+  _iconEffect: {fileID: 2800000, guid: d4f777c3ad7863c4a89e20c7838462c6, type: 3}
   _target: 0
   _prefabBonus: {fileID: 1225739699956118615, guid: db518fe781925d749b247c213c92f87c, type: 3}
   _prefabEffect: {fileID: 747516938742406590, guid: 1b01a87a6a9e12a47b21b511c82e4075, type: 3}

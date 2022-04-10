@@ -5,9 +5,7 @@ public class LoaderAssets<T> where T : ScriptableObject
 {
     public static T GetAsset(string path) 
     {
-        Debug.Log(path);
         return AssetDatabase.LoadAssetAtPath<T>(path);
-        //return Resources.Load<T>(path);
     }
 
     public static T[] GetAssets(string path)

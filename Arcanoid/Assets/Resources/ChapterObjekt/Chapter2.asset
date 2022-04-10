@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _numberChapter: 2
   _nameChapter: Two
-  _backgrounds: []
+  _backgrounds:
+  - {fileID: 2800000, guid: 43f948e45951c164d8c19483d0c3f56d, type: 3}
   _blocks: []
   _effects: []
   _countLevel: 0
