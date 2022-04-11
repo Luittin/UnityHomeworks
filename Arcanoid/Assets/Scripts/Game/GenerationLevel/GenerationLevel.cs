@@ -26,7 +26,7 @@ public class GenerationLevel : MonoBehaviour
         ball.OnCollision += _gameManager.AudioManager.OnPlayAudio;
         ball.DepartureAbroad += _gameManager.OnDepartureAbroadBall;
         
-        _gameManager.PlatformStats.GetComponent<MovePlatform>()._trigerBonus += _gameManager.OnSelectedEffect;
+        _gameManager.PlatformStats.GetComponent<MovePlatform>()._triggerBonus += _gameManager.OnSelectedEffect;
         
         float stepInstantiateX = 0.8f;
         float stepInstantiateY = 0.5f;
@@ -57,9 +57,7 @@ public class GenerationLevel : MonoBehaviour
 
     public void CreateBonus(int numberPresetEffect, Transform transformBlock)
     {
-        Debug.Log(numberPresetEffect);
         GameObject prefabBonus = _gameManager.Chapter._effects[numberPresetEffect - 1]._prefabBonus;
-        Debug.Log(prefabBonus);
         Bonus bonus = Instantiate(prefabBonus, transformBlock.position, Quaternion.identity).GetComponent<Bonus>();
         bonus.NumberEffect = numberPresetEffect;
     }

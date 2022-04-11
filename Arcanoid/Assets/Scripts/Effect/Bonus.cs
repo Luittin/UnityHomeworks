@@ -19,11 +19,11 @@ public class Bonus : MonoBehaviour
     
     public Vector2 NumberPresetBlock { get => _numberPresetBlock; set => _numberPresetBlock = value; }
     
-    private void Update()
+    private void FixedUpdate()
     {
         Vector2 position = transform.position;
 
-        position.y -= _muveSpeed * Time.deltaTime;
+        position.y -= _muveSpeed * Time.fixedDeltaTime;
 
         if(position.y < _destroyPosition)
         {

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -6,6 +7,9 @@ public class SelectedMenuItem : MonoBehaviour
 {
     [SerializeField]
     protected Button _button;
+
+    [SerializeField]
+    protected TextMeshProUGUI _numberSelectText;
 
     protected int _number;
 
@@ -18,6 +22,7 @@ public class SelectedMenuItem : MonoBehaviour
     public virtual void SetData(int number)
     {
         _number = number;
+        _numberSelectText.text = _number.ToString();
     }
 
     public virtual void OnButtonDown()

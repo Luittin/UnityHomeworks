@@ -12,7 +12,7 @@ public class MovePlatform : MonoBehaviour
     
     private float _direction = 0.0f;
 
-    public Action<TargetEffect, int> _trigerBonus;
+    public Action<TargetEffect, int> _triggerBonus;
 
     private void Update()
     {
@@ -40,7 +40,7 @@ public class MovePlatform : MonoBehaviour
         if (other.CompareTag("Bonus"))
         {
             Bonus bonus = other.GetComponent<Bonus>();
-            _trigerBonus?.Invoke(bonus.TargetEffect,bonus.NumberEffect);
+            _triggerBonus?.Invoke(bonus.TargetEffect,bonus.NumberEffect);
             Destroy(bonus.gameObject);
         }
     }

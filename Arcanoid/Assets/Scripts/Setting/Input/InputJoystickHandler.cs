@@ -14,7 +14,14 @@ public class InputJoystickHandler : MonoBehaviour
 
     [SerializeField]
     private Vector2 _startPosition;
-    
+
+    [SerializeField]
+    private float _minAlfa = 0.0f;
+    [SerializeField]
+    private float _maxAlfa = 0.3f;
+    [SerializeField]
+    private float _timeEffect = 0.5f;
+
     public event AxisHandler HorizontalHandler;
 
     public void OnTouchUpDown(bool isTouch)
@@ -32,15 +39,15 @@ public class InputJoystickHandler : MonoBehaviour
     private void TouchDown()
     {
         Color color = _parentJoystick.color;
-        color.a = 0;
-        _parentJoystick.DOColor(color, 0.5f);
+        color.a = _minAlfa;
+        _parentJoystick.DOColor(color, _timeEffect);
     }
 
     private void TouchUp()
     {
         Color color = _parentJoystick.color;
-        color.a = 0.3f;
-        _parentJoystick.DOColor(color, 0.5f);
+        color.a = _maxAlfa;
+        _parentJoystick.DOColor(color, _timeEffect);
 
         _joystick.position = _startPosition;
         HorizontalHandler?.Invoke(0.0f);

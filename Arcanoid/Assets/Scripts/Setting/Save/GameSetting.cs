@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
+[Serializable]
 public class GameSetting
 {
+    [SerializeField]
     private float _soundVolume;
+    [SerializeField]
     private float _musicVolume;
 
-    private List<int> _levelsDone;
+    public float SoundVolume { get => _soundVolume; set => _soundVolume = value; }
+    public float MusicVolume { get => _musicVolume; set => _musicVolume = value; }
 }

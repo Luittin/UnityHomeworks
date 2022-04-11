@@ -111,6 +111,7 @@ public class GameManager : MonoBehaviour
 
     private void EndGame()
     {
+
         _menuController.OpenPauseMenu();
         Time.timeScale = 0;
     }
@@ -120,8 +121,10 @@ public class GameManager : MonoBehaviour
         _countBlock--;
         if (_countBlock == 0)
         {
-            Time.timeScale = 0;
-            return;
+            //move to a separate method for processing
+            LevelSetting.Instantiate().GameData.LevelsDone[_level._chapter._numberChapter - 1].ComplitedLevels[_level._levelNumber - 1] = _countLives;
+            LevelSetting.Instantiate().GameData.LevelsDone[_level._chapter._numberChapter - 1].ComplitedLevels.Add(0);
+            EndGame();
         }
         _generationLevel.CreateBonus(numberPresetEffect,transformBlock);
     }

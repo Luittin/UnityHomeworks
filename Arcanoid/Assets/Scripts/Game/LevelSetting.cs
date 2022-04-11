@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelSetting
@@ -8,8 +6,11 @@ public class LevelSetting
 
     private int _levelNumber;
     private int _chapterNumber;
-    private UnityEngine.GameObject _platform;
-    private UnityEngine.GameObject _ball;
+
+    private GameData _gameData;
+
+    private GameObject _platform;
+    private GameObject _ball;
 
     private LevelSetting()
     {
@@ -18,8 +19,23 @@ public class LevelSetting
 
     public int LevelNumber { get => _levelNumber; set => _levelNumber = value; }
     public int ChapterNumber { get => _chapterNumber; set => _chapterNumber = value; }
-    public UnityEngine.GameObject Platform { get => _platform; set => _platform = value; }
-    public UnityEngine.GameObject Ball { get => _ball; set => _ball = value; }
+    public GameObject Platform { get => _platform; set => _platform = value; }
+    public GameObject Ball { get => _ball; set => _ball = value; }
+    public GameData GameData 
+    {
+        get 
+        { 
+            if(_gameData == null)
+            {
+                SaveSystem.Instantiate().Load();
+            }
+            return _gameData; 
+        }
+        set 
+        { 
+            _gameData = value; 
+        }
+    }
 
     public static LevelSetting Instantiate()
     {

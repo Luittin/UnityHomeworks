@@ -12,6 +12,7 @@ public class SelectChapter : SelectedMenuItem
     public void SetData(int number, UIMainMenuController menuController, State nextState)
     {
         _number = number;
+        _numberSelectText.text = _number.ToString();
         _menuController = menuController;
         _nextState = nextState;
     }
