@@ -72,29 +72,12 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.ads": {
-      "version": "3.7.5",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.analytics": {
-      "version": "3.6.11",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.collab-proxy": {
-      "version": "1.15.13",
+      "version": "1.15.1",
       "depth": 0,
       "source": "registry",
       "dependencies": {
+        "com.unity.nuget.newtonsoft-json": "2.0.0",
         "com.unity.services.core": "1.0.1"
       },
       "url": "https://packages.unity.com"
@@ -116,7 +99,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.14",
+      "version": "2.0.11",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -125,7 +108,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.5",
+      "version": "1.2.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -138,18 +121,11 @@
       "dependencies": {},
       "url": "https://packages.unity.com"
     },
-    "com.unity.purchasing": {
-      "version": "4.0.3",
-      "depth": 0,
+    "com.unity.nuget.newtonsoft-json": {
+      "version": "2.0.0",
+      "depth": 1,
       "source": "registry",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.unityanalytics": "1.0.0",
-        "com.unity.modules.unitywebrequest": "1.0.0",
-        "com.unity.modules.jsonserialize": "1.0.0",
-        "com.unity.modules.androidjni": "1.0.0",
-        "com.unity.services.core": "1.0.1"
-      },
+      "dependencies": {},
       "url": "https://packages.unity.com"
     },
     "com.unity.services.core": {
@@ -158,22 +134,6 @@
       "source": "registry",
       "dependencies": {
         "com.unity.modules.unitywebrequest": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.sysroot": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {},
-      "url": "https://packages.unity.com"
-    },
-    "com.unity.sysroot.linux-x86_64": {
-      "version": "1.0.0",
-      "depth": 1,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.sysroot": "1.0.0"
       },
       "url": "https://packages.unity.com"
     },
@@ -209,16 +169,6 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.toolchain.win-x86_64-linux-x86_64": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.sysroot": "1.0.0",
-        "com.unity.sysroot.linux-x86_64": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
-    },
     "com.unity.ugui": {
       "version": "1.0.0",
       "depth": 0,
@@ -227,16 +177,6 @@
         "com.unity.modules.ui": "1.0.0",
         "com.unity.modules.imgui": "1.0.0"
       }
-    },
-    "com.unity.xr.legacyinputhelpers": {
-      "version": "2.1.8",
-      "depth": 0,
-      "source": "registry",
-      "dependencies": {
-        "com.unity.modules.vr": "1.0.0",
-        "com.unity.modules.xr": "1.0.0"
-      },
-      "url": "https://packages.unity.com"
     },
     "com.unity.modules.ai": {
       "version": "1.0.0",

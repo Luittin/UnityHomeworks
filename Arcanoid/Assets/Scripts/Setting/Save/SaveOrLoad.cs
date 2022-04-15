@@ -1,15 +1,7 @@
 
-using UnityEngine;
-
-public class SaveOrLoad : MonoBehaviour
+public interface SaveOrLoad
 {
-    public virtual void Save(GameData gameData)
-    {
+    public void Save(GameData gameData);
 
-    }
-
-    public virtual GameData Load()
-    {
-        return null;
-    }
+    public GameData Load();
 }

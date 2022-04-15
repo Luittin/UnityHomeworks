@@ -1,38 +1,69 @@
+using System;
 using UnityEngine;
 
-public class UIGameMenuController : MonoBehaviour
+public class UIGameMenuController : MonoBehaviour, IMenuController
 {
-    [SerializeField] 
-    private GameManager _gameManager;
-    
-    [SerializeField] 
-    private GameObject _touchInput;
-    [SerializeField] 
-    private GameObject _ballSight;
+    public Action WentPause;
+    public Action ComOutPause;
+    public Action ReloadGame;
+    public Action ClickOnSound;
+    public Action ClickOnHome;
+    public Action NextLevel;
 
-    [SerializeField] 
-    private UpperMenuController _upperMenuController;
-    [SerializeField] 
-    private PauseMenuController _pauseMenuController;
+    [SerializeField]
+    private State _startMenu;
 
-    public void ShowTouch()
+    private State _nextState;
+    private State _currentState;
+
+    private void Awake()
     {
-        _touchInput.SetActive(true);
-        _ballSight.SetActive(false);
+        Initialize(_startMenu);
     }
 
-    public void ShowSight()
+    public void OnSelectMenu(State nextState)
     {
-        _touchInput.SetActive(false);
-        _ballSight.SetActive(true);
+        ChangeState(nextState);        
     }
-    
-    
-    
-    public void OpenPauseMenu()
+
+    private void Initialize(State startingState)
     {
-        _pauseMenuController.ShowMenu();
+        _currentState = startingState;
+        _currentState.Enter();
+        _currentState.ExitStateDone = StartNewState;
     }
-    
-    
+
+    public void ChangeState(State newState)
+    {
+        _nextState = newState;
+        StopCurrentState();
+    }
+
+    public void StopCurrentState()
+    {
+        _currentState.Exit();
+        
+    }
+
+    public void StartNewState()
+    {
+        _currentState = _nextState;
+        _currentState.ExitStateDone = StartNewState;
+        _nextState.Enter();
+    }
+
+    public void OnChangeLife(int currentLife)
+    {
+        
+    }
+
+    private void OnEndGame(int currentLife)
+    {
+        
+    }
+
+    public void OnChangeTargetInput()
+    {
+
+    }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEditor.UIElements;
 using System.Collections.Generic;
+using System;
 
 public class CreateLevel : EditorWindow
 {
@@ -15,10 +16,8 @@ public class CreateLevel : EditorWindow
     private int _countBlock = -1;
     private int _countEffect = -1;
 
-    private int _minCountGroung = 6;
     private int _countgroundX = 8;
     private int _countGroundY = 8;
-    private int _maxCountGround = 10;
 
     private FieldSquare[,] _levelSquares;
 
@@ -101,140 +100,73 @@ public class CreateLevel : EditorWindow
 
         saveButton.clickable.clicked += OnSavePreset;
         deliteButton.clickable.clicked += OnDelitePreset;
-
-        //Preset Menu
-        var dimension = root.Q<Vector2Field>("DimensionsField");
-        dimension.value = new Vector2(_countgroundX, _countGroundY);
-
-        //CreatePresetInWindows();
     }
-
-    private void CreatePresetElement(VisualElement parentVisualElement, int row, int column, Texture textureBlock, Texture textureEffect)
-    {
-        Button buttonPreset = new Button();
-        buttonPreset.name = $"{row}|{column}";
-
-        Image imageBlock = new Image();
-        imageBlock.name = $"{row}|{column} BlockImage";
-        imageBlock.style.width = 50.0f;
-        imageBlock.style.height = 20.0f;
-        imageBlock.image = textureBlock;
-        
-        buttonPreset.Add(imageBlock);
-
-        Image imageEffect = new Image();
-        imageEffect.name = $"{row}|{column} EffectImage";
-        imageEffect.style.width = 20.0f;
-        imageEffect.style.height = 20.0f;
-        imageEffect.image = textureEffect;
-        
-        imageBlock.Add(imageEffect);
-
-        buttonPreset.clickable.clickedWithEventInfo += OnUpdatePreset;
-
-        parentVisualElement.Add(buttonPreset);
-    }
-
+    
     private void PopulatePresetList()
     {
         if(_chapter != null)
         {
-            var backgrounds = rootVisualElement.Q<Label>("BackgroundsLabel");
+            FillPopulatePresetList(_chapter._backgrounds, "Background", 50f, 50f, SelectBackground);
 
-            Button button = new Button();
-            button.name = "Background_" + 0;
-            Image image = new Image();
-            image.style.width = 50f;
-            image.style.height = 50f;
-            image.image = null;
-            button.Add(image);
 
-            button.clickable.clickedWithEventInfo += SelectBlock;
-
-            backgrounds.Add(button);
-
-            if (_chapter._backgrounds != null)
+            Texture[] textures = null;
+            if(_chapter._blocks != null)
             {
-                for (int i = 0; i < _chapter._backgrounds.Length; i++)
-                {
-                    button = new Button();
-                    button.name = "Background_" + (i + 1);
-                    image = new Image();
-                    image.style.width = 50f;
-                    image.style.height = 50f;
-                    image.image = _chapter._backgrounds[i];
-                    button.Add(image);
-
-                    button.clickable.clickedWithEventInfo += SelectBackground;
-
-                    backgrounds.Add(button);
-                }
-            }
-
-            var blocks = rootVisualElement.Q<Label>("BlocksLabel");
-
-            button = new Button();
-            button.name = "Block_" + 0;
-            image = new Image();
-            image.style.width = 50f;
-            image.style.height = 50f;
-            image.image = null;
-            button.Add(image);
-
-            button.clickable.clickedWithEventInfo += SelectBlock;
-
-            blocks.Add(button);
-
-            if (_chapter._blocks != null)
-            {
+                textures = new Texture[_chapter._blocks.Length];
                 for (int i = 0; i < _chapter._blocks.Length; i++)
-                {
-                    button = new Button();
-                    button.name = "Block_" + (i + 1);
-                    image = new Image();
-                    image.style.width = 50f;
-                    image.style.height = 50f;
-                    image.image = _chapter._blocks[i]._iconBlock;
-                    button.Add(image);
-
-                    button.clickable.clickedWithEventInfo += SelectBlock;
-
-                    blocks.Add(button);
+                {                    
+                    textures[i] = _chapter._blocks[i]._iconBlock;                    
                 }
             }
 
-            var effects = rootVisualElement.Q<Label>("EffectsLabel");
-
-            button = new Button();
-            button.name = "Effeckt_" + 0;
-            image = new Image();
-            image.style.width = 50f;
-            image.style.height = 50f;
-            image.image = null;
-            button.Add(image);
-
-            button.clickable.clickedWithEventInfo += SelectEffect;
-
-            effects.Add(button);
+            FillPopulatePresetList(textures, "Block", 50f, 50f, SelectBlock);
 
             if (_chapter._effects != null)
             {
+                textures = new Texture[_chapter._effects.Length];
                 for (int i = 0; i < _chapter._effects.Length; i++)
                 {
-                    button = new Button();
-                    button.name = "Effeckt_" + (i + 1);
-                    image = new Image();
-                    image.style.width = 50f;
-                    image.style.height = 50f;
-                    image.image = _chapter._effects[i]._iconEffect;
-                    button.Add(image);
-
-                    button.clickable.clickedWithEventInfo += SelectEffect;
-
-                    effects.Add(button);
+                    textures[i] = _chapter._effects[i]._iconEffect;
                 }
             }
+
+            FillPopulatePresetList(textures, "Effect", 50f, 50f, SelectEffect);
         }
+    }
+    
+    private void FillPopulatePresetList(Texture[] textures, string nameList, float width, float height, Action<EventBase> eventCallback)
+    {
+        var backgrounds = rootVisualElement.Q<Label>($"{nameList}sLabel");
+    
+        Texture texture;
+        string name;
+    
+        name = $"{nameList}_{0}";
+        texture = null;
+    
+        backgrounds.Add(CreatePopulatePresetElement(name, width, height, texture, eventCallback));
+    
+        if (textures != null)
+        {
+            for (int i = 0; i < textures.Length; i++)
+            {
+                name = $"{nameList}_{(i + 1)}";
+                texture = textures[i];
+    
+                backgrounds.Add(CreatePopulatePresetElement(name, width, height, texture, eventCallback));
+            }
+        }
+    }
+    
+    private Button CreatePopulatePresetElement(string name, float width, float height, Texture texture, Action<EventBase> eventCallback)
+    {
+        Button button = new Button();
+        button.name = name;
+        button.Add(CreateImageElement("", width, height, texture));
+    
+        button.clickable.clickedWithEventInfo += eventCallback;
+    
+        return button;
     }
 
     private void SearchLevels()
@@ -260,7 +192,7 @@ public class CreateLevel : EditorWindow
         _currentLevel._chapter = _chapter;
         FullnessEmptyPresetInLevel();
     }
-    
+
     private void OpenLevel()
     {
         _currentLevel = LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_FILE_PATH, _chapter._numberChapter,_currentNumberLevel));
@@ -274,8 +206,6 @@ public class CreateLevel : EditorWindow
         FillPreset();
     }
 
-
-    //WorkToPreset
     private void FullnessEmptyPresetInLevel()
     {
         _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
@@ -284,29 +214,19 @@ public class CreateLevel : EditorWindow
             for(int j = 0; j < _countGroundY; j++)
             { 
                 FieldSquare fieldSquare = new FieldSquare();
-
+    
                 fieldSquare.Row = i;
                 fieldSquare.Colum = j;
                 fieldSquare.BlockNumber = 0;
                 fieldSquare.EffectNumber = 0;
-
+    
                 _levelSquares[i, j] = fieldSquare;
-
+    
                 _currentLevel._levelSquares.Add(fieldSquare);                
             }
         }
     }
 
-    private void FillArrayPreset()
-    {
-        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
-        
-        foreach (FieldSquare fieldSquare in _currentLevel._levelSquares)
-        {
-            _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
-        }
-    }
-    
     private void FillPreset()
     {
         _currentNumberLevel = _currentLevel._levelNumber;
@@ -346,6 +266,43 @@ public class CreateLevel : EditorWindow
             preset.Add(row);
         }     
     }
+    
+    private void CreatePresetElement(VisualElement parentVisualElement, int row, int column, Texture textureBlock, Texture textureEffect)
+    {
+        Button buttonPreset = new Button();
+        buttonPreset.name = $"{row}|{column}";
+
+        Image imageBlock = CreateImageElement($"{row}|{column} BlockImage", 50.0f, 20.0f, textureBlock);
+
+        buttonPreset.Add(imageBlock);
+
+        imageBlock.Add(CreateImageElement($"{row}|{column} EffectImage", 20.0f, 20.0f, textureEffect));
+
+        buttonPreset.clickable.clickedWithEventInfo += OnUpdatePreset;
+
+        parentVisualElement.Add(buttonPreset);
+    }    
+
+    private void FillArrayPreset()
+    {
+        _levelSquares = new FieldSquare[_countgroundX, _countGroundY];
+        
+        foreach (FieldSquare fieldSquare in _currentLevel._levelSquares)
+        {
+            _levelSquares[fieldSquare.Row, fieldSquare.Colum] = fieldSquare;
+        }
+    }
+    
+    private Image CreateImageElement(string name, float width, float height, Texture texture)
+    {
+        Image image = new Image();
+        image.name = name;
+        image.style.width = width;
+        image.style.height = height;
+        image.image = texture;
+
+        return image;
+    }
 
     private void SelectBackground(EventBase element)
     {
@@ -362,6 +319,7 @@ public class CreateLevel : EditorWindow
         _countEffect = -1;
         
     }
+    
     private void SelectEffect(EventBase element)
     {
         VisualElement effect = (VisualElement)element.target;
@@ -376,51 +334,47 @@ public class CreateLevel : EditorWindow
         int indexI = int.Parse(index[0]);
         int indexJ = int.Parse(index[1]);
 
+        string name = string.Empty;
+        int count = 0;
+        Texture texture = null;
+
         if(_countBlock != -1)
         {
-            AddBlockForPreset(indexI, indexJ);
+            name = $"{preset.name} BlockImage";
+            count = _countBlock;
+            if (count > 0)
+            {
+                texture = _chapter._blocks[_countBlock - 1]._iconBlock;
+            }
+
+            _levelSquares[indexI, indexJ].BlockNumber = _countBlock;
         }
         if(_countEffect != -1)
         {
-            AddEffectForPreset(indexI, indexJ);
+            name = $"{preset.name} EffectImage";
+            count = _countEffect;
+            if (count > 0)
+            {
+                texture = _chapter._effects[_countEffect - 1]._iconEffect;
+            }
+
+            _levelSquares[indexI, indexJ].EffectNumber = _countEffect;
         }
+
+        ChangeImagePreset(name, count, texture);
     }
 
-    private void AddBlockForPreset(int i, int j)
+    private void ChangeImagePreset(string name, int count, Texture texture)
     {
-        Image image = rootVisualElement.Q<Image>($"{i}|{j} BlockImage");
-        if (_countBlock == 0)
+        Image image = rootVisualElement.Q<Image>(name);
+        if (count == 0)
         {
             image.image = null;
         }
         else
         {
-            image.image = _chapter._blocks[_countBlock - 1]._iconBlock;
+            image.image = texture;
         }
-
-        _levelSquares[i, j].BlockNumber = _countBlock;
-        
-    }
-
-    private void AddEffectForPreset(int i, int j)
-    {
-        Image image = rootVisualElement.Q<Image>($"{i}|{j} EffectImage");
-        if (_countEffect == 0)
-        {
-            image.image = null;
-        }
-        else
-        {
-            image.image = _chapter._effects[_countEffect - 1]._iconEffect;
-        }
-
-        _levelSquares[i, j].EffectNumber = _countEffect;
-    }
-
-    private void OnResetPreset()
-    {
-        FullnessEmptyPresetInLevel();
-        FillPreset();
     }
 
     private void OnSavePreset()

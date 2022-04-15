@@ -35,8 +35,6 @@
 			<engine:VisualElement name="RightBottomPanel">
 					<engine:Label text="Preset Level Values" style="-unity-font-style: bold; margin-top: 20px; margin-bottom: 15px;"/>
 
-                <editor:Vector2Field name="DimensionsField" label="Dimensions"/>
-
                 <engine:Label name="BackgroundsLabel" text="Backgrounds"/>
                 <editor:Toolbar name ="Backgrounds" tabindex="0">
                 </editor:Toolbar>

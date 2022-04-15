@@ -7,6 +7,9 @@ public class BallSight : MonoBehaviour
     private float _minDegree = -170.0f;
     [SerializeField]
     private float _maxDegree = -10.0f;
+    [SerializeField]
+    private Vector3 _startRotation = new Vector3(0.0f,0.0f, 90.0f);
+
 
     private bool isInput = false;
 
@@ -36,6 +39,18 @@ public class BallSight : MonoBehaviour
         if (!isInput)
         {
             DirectionSight?.Invoke(_direction);
+            DisableHandler();
         }
+    }
+
+    public void DisableHandler()
+    {
+        transform.rotation = Quaternion.Euler(_startRotation);
+        gameObject.SetActive(false);
+    }
+
+    public void OnAnableHandler()
+    {
+        gameObject.SetActive(true);
     }
 }

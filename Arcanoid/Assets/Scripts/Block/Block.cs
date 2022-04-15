@@ -1,21 +1,45 @@
 using System;
 using UnityEngine;
 
+[RequireComponent(typeof(BlockStats))]
 public class Block : MonoBehaviour
 {
     [SerializeField]
-    private BlockHealth _blockHealth;
+    private BlockStats _blockStats;
 
-    [SerializeField]
-    private int _numberPresetEffect;
+    private SpriteRenderer spriteRenderer;
 
-    public Action<int, Transform> destroyBlock;
+    public Action<BlockStats> destroyBlock;
 
-    public int NumberPresetEffect { get => _numberPresetEffect; set => _numberPresetEffect = value; }
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
 
+        _blockStats = GetComponent<BlockStats>();
+        _blockStats.resetSprite = OnResetSpriteBlock;
+    }
+
+    public void DecrementHealth(int damage)
+    {
+        if (!_blockStats.Invulnerability)
+        {
+            _blockStats.Health -= damage;
+
+            if (_blockStats.Health <= 0)
+            {
+                DestroyBlock();
+            }
+        }
+    }
+    
     public void DestroyBlock()
     {
-        destroyBlock?.Invoke(_numberPresetEffect, transform);
+        destroyBlock?.Invoke(_blockStats);
         Destroy(this.gameObject);
+    }
+
+    public void OnResetSpriteBlock()
+    {
+        spriteRenderer.sprite = _blockStats.Sprite;
     }
 }

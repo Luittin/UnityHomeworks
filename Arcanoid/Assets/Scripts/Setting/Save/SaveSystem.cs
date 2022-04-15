@@ -1,49 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SaveSystem : MonoBehaviour
+public class SaveSystem
 {
-    private static SaveSystem _saveSystem = null;
-
-    [SerializeField]
     private SaveOrLoad _save;
 
-    private void Awake()
+    public SaveSystem()
     {
-        if (_saveSystem == null)
+        _save = new SaveThroughPlayerPrefs();
+    }
+    
+    public void Save(GameData gameData)
+    {
+        _save.Save(gameData);
+    }
+
+    public GameData Load()
+    {
+        GameData gameData = _save.Load();
+        
+        if(gameData == null)
         {
-            _saveSystem = this;
+            gameData = LoadNewGameData();
         }
-        else
-        {
-            Destroy(this);
-        }
+        
+        return gameData;
     }
 
-    public static SaveSystem Instantiate()
+    private GameData LoadNewGameData()
     {
-        return _saveSystem;
-    }
-
-    public void Save()
-    {
-        _save.Save(LevelSetting.Instantiate().GameData);
-    }
-
-    public void Load()
-    {
-        LevelSetting.Instantiate().GameData = _save.Load();
-        Debug.Log(LevelSetting.Instantiate().GameData);
-        if(LevelSetting.Instantiate().GameData == null)
-        {
-            LoadNewGamedata();
-        }
-    }
-
-    private void LoadNewGamedata()
-    {
-        LevelSetting.Instantiate().GameData = new GameData();
-        GameData gameData = LevelSetting.Instantiate().GameData;
+        GameData gameData = new GameData();
 
         gameData.LevelsDone = new List<FinishChapter>();
         gameData.LevelsDone.Add(new FinishChapter());
@@ -54,6 +40,6 @@ public class SaveSystem : MonoBehaviour
         gameData.GameSetting.MusicVolume = 0.5f;
         gameData.GameSetting.SoundVolume = 0.5f;
 
-        Save();
+        return gameData;
     }
 }

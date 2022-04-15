@@ -52,7 +52,7 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.GetComponent<Stats>() != null)
         {
-            OnCollision?.Invoke(collision.gameObject.GetComponent<Stats>().AudioClip);
+            //OnCollision?.Invoke(collision.gameObject.GetComponent<Stats>().AudioClip);
         }
 
         CollisionEnter(collision.gameObject);
@@ -67,10 +67,9 @@ public class Ball : MonoBehaviour
     {
         if (collision.CompareTag("Block"))
         {
-            collision.GetComponent<BlockHealth>().DecrementHealth(_ballStats.Damage);
+            collision.GetComponent<Block>().DecrementHealth(_ballStats.Damage);
         }
-
-        if (collision.CompareTag("BallCatcher"))
+        else if (collision.CompareTag("BallCatcher"))
         {
             DepartureAbroad?.Invoke(this);
         }

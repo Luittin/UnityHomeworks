@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Block
   - BallCatcher
-  - Bonus
   layers:
   - Default
   - TransparentFX

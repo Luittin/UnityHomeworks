@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class UIMainMenuController : MonoBehaviour
+public class UIMainMenuController : MonoBehaviour, IMenuController
 {
     [SerializeField]
     private State _startMenu;

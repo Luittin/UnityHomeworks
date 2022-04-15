@@ -2,16 +2,15 @@ using UnityEngine;
 
 public class SaveThroughPlayerPrefs : SaveOrLoad
 {
-    [SerializeField]
-    private string _keyForSave;
+    private string _keyForSave = "GameSave";
 
-    public override GameData Load()
+    public GameData Load()
     {
         string data = PlayerPrefs.GetString(_keyForSave);
         return JsonUtility.FromJson<GameData>(data);
     }
 
-    public override void Save(GameData gameData)
+    public void Save(GameData gameData)
     {
         string data = JsonUtility.ToJson(gameData);
         PlayerPrefs.SetString(_keyForSave, data);

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1431227068134f349a2ea1d7927bc56a, type: 3}
   m_Name: Block2
   m_EditorClassIdentifier: 
-  _iconBlock: {fileID: 2800000, guid: 44868f55eec959f4fb3784685340be5b, type: 3}
-  _prefabBlock: {fileID: 4276584183824016400, guid: 3a9e676ca78762642a70976168a5367d, type: 3}
+  _iconBlock: {fileID: 2800000, guid: caf5a9535a4c36642b2a01839b46db3c, type: 3}
+  _prefabBlock: {fileID: 8349291153514220395, guid: 9d42889df3d054b499e06ea8dae9186b, type: 3}
