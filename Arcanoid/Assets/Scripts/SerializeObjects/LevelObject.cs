@@ -25,5 +25,7 @@ public class FieldSquare
     public int Colum { get => colum; set => colum = value; }
 
     public int BlockNumber { get => blockNumber; set => blockNumber = value; }
+
     public int EffectNumber { get => effectNumber; set => effectNumber = value; }
 }
+

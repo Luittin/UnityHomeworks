@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,8 +11,8 @@ public class LevelGenerationBlock : IGenerationBlock
     
     private List<BlockStats> _blocks;
 
-    private Action endGame;
-    private Action<ChapterObject, int, Transform> destroyBlock;
+    private event Action EndGame;
+    private event Action<ChapterObject, int, Transform> DestroyBlock;
     
     public LevelGenerationBlock(LevelObject levelPreset, ChapterObject chapterPreset, Vector2 startPosition, Transform parentBlocks)
     {
@@ -21,17 +20,16 @@ public class LevelGenerationBlock : IGenerationBlock
         _chapterPreset = chapterPreset;
         _startPosition = startPosition;
         _parentBlocks = parentBlocks;
-        
     }
 
-    public void StartGeneration(LevelManager levelManager, CreateBonusAndEffect createBonus)
+    public void StartGeneration(LevelManager levelManager, CreateBonus createBonus, CreateEffect createEffect)
     {
-        destroyBlock = createBonus.CreateBonus;
-        endGame = levelManager.OnDestroyAllBlocks;
+        DestroyBlock = createBonus.InstantiateBonus;
+        EndGame = levelManager.OnDestroyAllBlocks;
         GenerationBlocs();
     }
 
-    public void GenerationBlocs()
+    private void GenerationBlocs()
     {
         float stepInstantiateX = 0.8f;
         float stepInstantiateY = 0.5f;
@@ -49,7 +47,7 @@ public class LevelGenerationBlock : IGenerationBlock
                 if (fieldSquare.EffectNumber > 0)
                 {
                     block.NumberPresetEffect = fieldSquare.EffectNumber;
-                    block.GetComponent<Block>().destroyBlock += OnDestroyBlockFromBonus;
+                    block.GetComponent<Block>().DestroyBlock += OnDestroyBlockFromBonus;
                 }
 
                 _blocks.Add(block);
@@ -63,10 +61,10 @@ public class LevelGenerationBlock : IGenerationBlock
 
         if(_blocks.Count == 0)
         {
-            endGame?.Invoke();
+            EndGame?.Invoke();
         }
         
-        destroyBlock?.Invoke(_chapterPreset, blockStats.NumberPresetEffect, blockStats.transform);
+        DestroyBlock?.Invoke(_chapterPreset, blockStats.NumberPresetEffect, blockStats.transform);
     }
 
 

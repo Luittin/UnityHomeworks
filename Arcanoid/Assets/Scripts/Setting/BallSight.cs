@@ -15,7 +15,7 @@ public class BallSight : MonoBehaviour
 
     private Vector2 _direction = Vector2.zero;
     
-    public Action<Vector2> DirectionSight;
+    public event Action<Vector2> DirectionSight;
 
     public void OnDrag(Vector2 eventPosition)
     {
@@ -39,18 +39,18 @@ public class BallSight : MonoBehaviour
         if (!isInput)
         {
             DirectionSight?.Invoke(_direction);
-            DisableHandler();
+            
+            StateSwitching(false);
         }
     }
 
-    public void DisableHandler()
+    public void StateSwitching(bool isState)
     {
-        transform.rotation = Quaternion.Euler(_startRotation);
-        gameObject.SetActive(false);
+        gameObject.SetActive(isState);
     }
 
-    public void OnAnableHandler()
+    private void OnDisable()
     {
-        gameObject.SetActive(true);
+        transform.rotation = Quaternion.Euler(_startRotation);
     }
 }

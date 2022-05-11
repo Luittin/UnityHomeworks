@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class MenuEffect : MonoBehaviour
 {
-    public Action EndDisappearingEffect;
+    public event Action EndDisappearingEffect;
 
     public virtual void AppearanceEffect()
     {

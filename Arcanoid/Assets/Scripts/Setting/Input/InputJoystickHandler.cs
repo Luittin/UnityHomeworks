@@ -115,18 +115,22 @@ public class InputJoystickHandler : MonoBehaviour
         }
         
     }
-    public void DisableHandler()
+    public void StateSwitching(bool isState)
     {
-        gameObject.SetActive(false);
+        gameObject.SetActive(isState);
+
+    }
+
+    private void OnDisable()
+    {
         HorizontalHandler?.Invoke(0.0f);
         HideArrow();
         SetAlfaImageElement(_image, _minAlfa);
         isActive = false;
     }
 
-    public void AnableHandler()
+    private void OnEnable()
     {
-        gameObject.SetActive(true);
         isActive = true;
     }
 }

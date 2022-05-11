@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class BlockStats : Stats, IPoolable
+public class BlockStats : Stats
 {
     [SerializeField]
     private int _health = 1;
@@ -10,23 +10,17 @@ public class BlockStats : Stats, IPoolable
     [SerializeField]
     private Sprite _sprite;
 
-    public Action resetSprite;
+    public event Action ResetSprite;
 
-
-    private bool _invulnerability = false;
 
     public int Health { get => _health; set => _health = value; }
-    public bool Invulnerability { get => _invulnerability; set => _invulnerability = value; }
+    public bool Invulnerability { get; set; } = false;
     public int NumberPresetEffect { get => _numberPresetEffect; set => _numberPresetEffect = value; }
-    public Sprite Sprite { get => _sprite; set { _sprite = value; resetSprite?.Invoke(); } }
+    public Sprite Sprite { get => _sprite; set { _sprite = value; ResetSprite?.Invoke(); } }
 
-    public void ReturnToPool()
+    private void Awake()
     {
-        throw new NotImplementedException();
-    }
-
-    public void RequestFromPool()
-    {
-        throw new NotImplementedException();
+        Block block = GetComponent<Block>();
+        ResetSprite = block.OnResetSpriteBlock;
     }
 }

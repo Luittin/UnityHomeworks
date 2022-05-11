@@ -1,8 +1,6 @@
-﻿using UnityEngine;
-
-public interface IGenerationBlock
+﻿public interface IGenerationBlock
 {
-    public void StartGeneration(LevelManager levelManager, CreateBonusAndEffect createBonus);
+    public void StartGeneration(LevelManager levelManager, CreateBonus createBonus, CreateEffect createEffect);
 
     public void OnDestroyBlockFromBonus(BlockStats blockStats);
 }

@@ -25,19 +25,21 @@ public class ChangeSpeed : Effect
             {
                 parentChangeSize._currentTime = -1f;
             }
+            Destroy(gameObject);
         }
-        
+
+        _currentTime = _timeForEffect;
         _originalSpeed = _stats.Speed;
         _stats.Speed *= _changeSpeed;
-        
+
         transform.parent = _stats.transform;
         _timerEffect = StartCoroutine(TimerEffect());
     }
     
     protected override void StopEffect()
     {
-        _stats.Size = _originalSpeed;
+        _stats.Speed = _originalSpeed;
         _timerEffect = null;
-        Destroy(this.gameObject);
+        Destroy(gameObject);
     }
 }

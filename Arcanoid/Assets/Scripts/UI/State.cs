@@ -6,7 +6,7 @@ public class State : MonoBehaviour
     [SerializeField]
     private MenuEffect _menuEffect;
 
-    public Action ExitStateDone;
+    public event Action ExitStateDone;
 
     private void Awake()
     {
@@ -16,6 +16,11 @@ public class State : MonoBehaviour
         }
     }
 
+    public void AddListener(Action action)
+    {
+        ExitStateDone = action;
+    }
+    
     public void Enter()
     {
         gameObject.SetActive(true);

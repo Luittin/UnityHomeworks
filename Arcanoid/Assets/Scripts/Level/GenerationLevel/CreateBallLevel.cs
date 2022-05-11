@@ -6,7 +6,7 @@ public class CreateBallLevel
 {
     private List<Ball> _balls;
     
-    private Action DecreateLife;
+    private event Action DecreateLife;
 
     public void CreateBall(BallStats ballStats, LevelManager levelManager)
     {
@@ -20,7 +20,7 @@ public class CreateBallLevel
         _balls.Add(ball);
     }
     
-    public void OnDepartureAbroadBall(Ball ball)
+    private void OnDepartureAbroadBall(Ball ball)
     {
         if (_balls.Count > 1)
         {

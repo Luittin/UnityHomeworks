@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -50,9 +50,14 @@ public class LevelManager : MonoBehaviour
     private LevelObject _levelPreset;
 
     private IGenerationBlock _generationBlock;
-    private CreateBonusAndEffect _createBonus;
+    private CreateBonus _createBonus;
+    private CreateEffect _createEffect;
     private CreateBallLevel _createBall;
-    
+
+    private event Action<bool> SwitchJoystickState;
+    private event Action<bool> SwitchBallSightState;
+    private event Action ResetPositionPlatform;
+
     private void Awake()
     {
         SetInputHandler();
@@ -66,6 +71,10 @@ public class LevelManager : MonoBehaviour
         
         _levelPreset = LoaderAssets<LevelObject>.GetAsset(string.Format(LEVELS_PATH,_levelSetting.ChapterNumber, _levelSetting.LevelNumber));
         _chapterPreset = LoaderAssets<ChapterObject>.GetAsset(string.Format(CHAPTER_PATH, _levelSetting.ChapterNumber));
+
+        SwitchJoystickState += _joystickHandler.StateSwitching;
+        SwitchBallSightState += _ballSight.StateSwitching;
+        ResetPositionPlatform += _platform.MoveStartPosition;
 
         GenerationLevel();
     }
@@ -88,13 +97,14 @@ public class LevelManager : MonoBehaviour
         {
             _generationBlock = new LevelGenerationBlock(_levelPreset, _chapterPreset, _startFieldPoin, _parentBlocks);
         }
-        _createBonus = new CreateBonusAndEffect();
+        _createBonus = new CreateBonus();
+        _createEffect = new CreateEffect();
         _createBall = new CreateBallLevel();
         
         FillGamePlane();
     }
     
-    public void FillGamePlane()
+    private void FillGamePlane()
     {
         if (_levelPreset._background < 0)
         {
@@ -103,24 +113,37 @@ public class LevelManager : MonoBehaviour
         
         _createBall.CreateBall(_ball.GetComponent<BallStats>(), this);
         
-        _platform._triggerBonus += OnSelectedEffect;
+        _platform.TriggerBonus += OnSelectedEffect;
         
-        _generationBlock.StartGeneration(this, _createBonus);
+        _generationBlock.StartGeneration(this, _createBonus, _createEffect);
     }
 
-    public void OnPushBall(Vector2 direction)
+    private void OnPushBall(Vector2 direction)
     {
         _ball.StartMoveBall(direction);
-        _joystickHandler.AnableHandler();        
+        SwitchJoystickState?.Invoke(true);       
     }
     
     public void OnDecreaseLife()
     {
         _countLife--;
+
+        ResetPositionPlatform?.Invoke();
+
         if (_countLife == 0)
         {
             EndGame(_endGameMenu);
+        }
+        else
+        {
+            EnableBallSight();
         }        
+    }
+
+    private void EnableBallSight()
+    {
+        SwitchJoystickState?.Invoke(false);
+        SwitchBallSightState?.Invoke(true);
     }
 
     public void OnDestroyAllBlocks()
@@ -137,7 +160,7 @@ public class LevelManager : MonoBehaviour
         _menuController.OnSelectMenu(state);
     }
     
-    public void OnSelectedEffect(TargetEffect target, int numberEffect)
+    private void OnSelectedEffect(TargetEffect target, int numberEffect)
     {
         Transform targetTransform = null;
         
@@ -151,7 +174,7 @@ public class LevelManager : MonoBehaviour
                 break;
         }
 
-        _createBonus.CreateEffect(_chapterPreset, targetTransform, numberEffect);
+        _createEffect.InstantiateEffect(_chapterPreset, targetTransform, numberEffect);
     }
 }
 

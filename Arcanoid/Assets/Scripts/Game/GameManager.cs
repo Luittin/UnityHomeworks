@@ -10,17 +10,9 @@ public class GameManager : MonoBehaviour
 
     private LevelSetting _levelSetting;
 
-    public GameData GameData
-    {
-        get => _gameData;
-        set => _gameData = value;
-    }
+    public GameData GameData { get => _gameData; set => _gameData = value; }
 
-    public LevelSetting LevelSetting
-    {
-        get => _levelSetting;
-        set => _levelSetting = value;
-    }
+    public LevelSetting LevelSetting { get => _levelSetting; set => _levelSetting = value; }
 
     private void Awake()
     {

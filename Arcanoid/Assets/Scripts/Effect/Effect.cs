@@ -14,7 +14,7 @@ public class Effect : MonoBehaviour
 
     protected Coroutine _timerEffect;
 
-    protected Action _stopEffect;
+    protected event Action _stopEffect;
 
     public Stats Stats { get => _stats; set => _stats = value; }
 

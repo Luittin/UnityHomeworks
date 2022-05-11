@@ -9,33 +9,31 @@ public class Block : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    public Action<BlockStats> destroyBlock;
+    public event Action<BlockStats> DestroyBlock;
 
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
 
         _blockStats = GetComponent<BlockStats>();
-        _blockStats.resetSprite = OnResetSpriteBlock;
     }
 
     public void DecrementHealth(int damage)
     {
-        if (!_blockStats.Invulnerability)
-        {
-            _blockStats.Health -= damage;
+        if (_blockStats.Invulnerability) return;
+        
+        _blockStats.Health -= damage;
 
-            if (_blockStats.Health <= 0)
-            {
-                DestroyBlock();
-            }
+        if (_blockStats.Health <= 0)
+        {
+            DestructionBlock();
         }
     }
     
-    public void DestroyBlock()
+    private void DestructionBlock()
     {
-        destroyBlock?.Invoke(_blockStats);
-        Destroy(this.gameObject);
+        DestroyBlock?.Invoke(_blockStats);
+        Destroy(gameObject);
     }
 
     public void OnResetSpriteBlock()

@@ -1491,7 +1491,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _platformStats: {fileID: 699535695}
-  _startPosition: {x: 0, y: 0}
+  _startPosition: {x: 0, y: -5.8}
 --- !u!114 &699535695
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1621,7 +1621,7 @@ GameObject:
   - component: {fileID: 790635684}
   - component: {fileID: 790635686}
   m_Layer: 5
-  m_Name: Image
+  m_Name: BallSight
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1698,7 +1698,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _minDegree: -170
   _maxDegree: -10
-  _startRotation: {x: 0, y: 0, z: 90}
+  _startRotation: {x: 0, y: 0, z: 0}
 --- !u!1 &806308457
 GameObject:
   m_ObjectHideFlags: 0

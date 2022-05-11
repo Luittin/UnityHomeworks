@@ -12,7 +12,7 @@ public class MovePlatform : MonoBehaviour
     
     private float _direction = 0.0f;
 
-    public Action<TargetEffect, int> _triggerBonus;
+    public event Action<TargetEffect, int> TriggerBonus;
 
     private void Update()
     {
@@ -35,13 +35,14 @@ public class MovePlatform : MonoBehaviour
         _direction = direction;
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D col)
     {
-        if (other.CompareTag("Bonus"))
+        if (col.GetComponent<Bonus>() != null)
         {
-            Bonus bonus = other.GetComponent<Bonus>();
-            _triggerBonus?.Invoke(bonus.TargetEffect,bonus.NumberEffect);
+            Bonus bonus = col.GetComponent<Bonus>();
+
+            TriggerBonus?.Invoke(bonus.TargetEffect,bonus.NumberEffect);
             Destroy(bonus.gameObject);
-        }
+        }        
     }
 }

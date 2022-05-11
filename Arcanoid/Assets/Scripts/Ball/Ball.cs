@@ -9,17 +9,14 @@ public class Ball : MonoBehaviour
 
     [SerializeField]
     private Vector2 _startPosition;
-    
-    [SerializeField]
-    private BallSight _inputHandler;
 
     [SerializeField]
     private Rigidbody2D _rigidbody;
 
-    public Action<AudioClip> OnCollision;
-    public Action<Ball> DepartureAbroad;
+    public event Action<AudioClip> OnCollision;
+    public event Action<Ball> DepartureAbroad;
     
-    private bool isStartMove = false;
+    private bool _isStartMove = false;
 
     private void Awake()
     {
@@ -30,16 +27,16 @@ public class Ball : MonoBehaviour
 
     public void StartMoveBall(Vector2 direction)
     {
-        if (isStartMove == false)
+        if (_isStartMove == false)
         {
             _rigidbody.AddForce(direction * _ballStats.Speed, ForceMode2D.Impulse);
         }
-        isStartMove = true;
+        _isStartMove = true;
     }
 
     public void StopBall()
     {
-        isStartMove = false;
+        _isStartMove = false;
         _rigidbody.velocity = Vector2.zero;
     }
 
@@ -65,7 +62,7 @@ public class Ball : MonoBehaviour
 
     private void CollisionEnter(GameObject collision)
     {
-        if (collision.CompareTag("Block"))
+        if (collision.GetComponent<Block>() != null)
         {
             collision.GetComponent<Block>().DecrementHealth(_ballStats.Damage);
         }

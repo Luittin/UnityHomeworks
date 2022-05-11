@@ -1,15 +1,7 @@
-using System;
 using UnityEngine;
 
-public class UIGameMenuController : MonoBehaviour, IMenuController
+public class UIMainMenuController : MonoBehaviour, IMenuController
 {
-    public event Action WentPause;
-    public event Action ComOutPause;
-    public event Action ReloadGame;
-    public event Action ClickOnSound;
-    public event Action ClickOnHome;
-    public event Action NextLevel;
-
     [SerializeField]
     private State _startMenu;
 
@@ -26,7 +18,7 @@ public class UIGameMenuController : MonoBehaviour, IMenuController
         ChangeState(nextState);        
     }
 
-    private void Initialize(State startingState)
+    public void Initialize(State startingState)
     {
         _currentState = startingState;
         _currentState.Enter();
@@ -50,20 +42,5 @@ public class UIGameMenuController : MonoBehaviour, IMenuController
         _currentState = _nextState;
         _currentState.AddListener(StartNewState);
         _nextState.Enter();
-    }
-
-    public void OnChangeLife(int currentLife)
-    {
-        
-    }
-
-    private void OnEndGame(int currentLife)
-    {
-        
-    }
-
-    public void OnChangeTargetInput()
-    {
-
     }
 }

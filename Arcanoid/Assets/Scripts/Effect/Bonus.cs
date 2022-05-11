@@ -27,7 +27,7 @@ public class Bonus : MonoBehaviour
 
         if(position.y < _destroyPosition)
         {
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         transform.position = position;
