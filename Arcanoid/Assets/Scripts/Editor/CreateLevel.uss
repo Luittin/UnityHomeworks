@@ -1,0 +1,71 @@
+#ButtonHolder 
+{
+	height: 50px;
+	width: auto;
+	background-color: rgba(50, 50, 50, 1);
+
+	display: flex;
+	flex-direction: row;
+}
+
+#Container 
+{
+	background-color: rgba(50, 50, 50, 1);
+	display: flex;
+	flex-direction: row;
+	width: auto;
+	text-color: rgb(51, 51, 51);
+}
+
+#RightPanel 
+{
+	position: relative;
+	flex: 1;
+	width: auto;
+	border-width: 2px;
+	border-color: rgba(50, 50, 50, 1);
+}
+
+#LeftPanel 
+{
+	display: flex;
+	-unity-text-align: middle-center;
+	flex: 1;
+	align: center;
+	width: auto;
+	border-width: 2px;
+	border-color: rgba(50, 50, 50, 1);
+}
+
+#RightTopPanel 
+{
+	border-width: 1px;
+	border-color: rgba(50, 50, 50, 1);
+	-unity-text-align: middle-center;
+	display: flex;
+	flex: 1;
+}
+
+#RightBottomPanel 
+{
+	border-width: 1px;
+	border-color: rgba(50, 50, 50, 1);
+	-unity-text-align: middle-center;
+	display: flex;
+	flex: 1;
+}
+
+#BackgroundsLabel
+{
+	flex-direction: row;
+}
+
+#BlocksLabel
+{
+	flex-direction: row;
+}
+
+#EffectsLabel
+{
+	flex-direction: row;
+}
